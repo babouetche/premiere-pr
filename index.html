@@ -3,276 +3,357 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Compta Aquatic Shape</title>
+<title>Retro Succès</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
-<meta name="theme-color" content="#0a7ea4">
+<meta name="theme-color" content="#1b1f3b">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Compta ASC">
+<meta name="apple-mobile-web-app-title" content="Retro Succès">
 <style>
-:root{--bg:#f4f8fb;--card:#fff;--txt:#14232e;--mut:#5d7180;--acc:#0a7ea4;--acc2:#e0f2f8;--ok:#1f8a4c;--warn:#c27c0e;--bad:#c0392b;--line:#dde6ec}
-@media (prefers-color-scheme:dark){:root{--bg:#0e1820;--card:#16232d;--txt:#e6eef3;--mut:#93a7b5;--acc:#35b6dc;--acc2:#163746;--line:#24343f}}
+:root{--bg:#f3f4fa;--card:#fff;--txt:#161a33;--mut:#5f6585;--acc:#4b5bd6;--acc2:#e6e8fb;--gold:#d9a400;--ok:#1f8a4c;--bad:#c0392b;--line:#dfe1ee;--head:#1b1f3b}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1224;--card:#181c34;--txt:#e8eaf6;--mut:#9aa0c3;--acc:#8c98ff;--acc2:#252b52;--line:#2a3058;--head:#0a0c1a}}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
-header{background:var(--acc);color:#fff;padding:14px 16px}
+header{background:var(--head);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 header h1{margin:0;font-size:1.15rem}
-header small{opacity:.85}
+header small{opacity:.8;font-size:.8rem}
+header button{background:none;border:1px solid #fff5;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
 nav{display:flex;gap:4px;padding:8px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2;overflow-x:auto}
-nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 10px;border-radius:8px;font-size:.95rem;white-space:nowrap;cursor:pointer}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 10px;border-radius:8px;font-size:.92rem;white-space:nowrap;cursor:pointer}
 nav button.on{background:var(--acc2);color:var(--acc);font-weight:600}
 main{max-width:760px;margin:0 auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
 .card h2{font-size:1rem;margin:0 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
 .kpi{background:var(--acc2);border-radius:10px;padding:10px}
-.kpi b{display:block;font-size:1.3rem;margin-top:2px}
+.kpi b{display:block;font-size:1.25rem;margin-top:2px}
 .kpi span{font-size:.8rem;color:var(--mut)}
 label{display:block;font-size:.85rem;color:var(--mut);margin-top:8px}
 input,select{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--txt);font-size:1rem}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:1rem;cursor:pointer;margin-top:12px}
 .btn.sec{background:var(--acc2);color:var(--acc)}
-.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 2px}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 2px}
 .bar i{display:block;height:100%;background:var(--ok)}
-table{width:100%;border-collapse:collapse;font-size:.9rem}
-td,th{padding:7px 4px;border-bottom:1px solid var(--line);text-align:left}
-td.n,th.n{text-align:right;white-space:nowrap}
-.del{background:none;border:0;color:var(--bad);cursor:pointer;font-size:1rem}
-.mut{color:var(--mut);font-size:.85rem}
-.hide{display:none}
-.tag{display:inline-block;padding:1px 7px;border-radius:10px;background:var(--acc2);color:var(--acc);font-size:.75rem}
-.alert{padding:10px;border-radius:8px;margin-top:8px;font-size:.9rem}
-.alert.warn{background:#fff4e0;color:#7a4e06}.alert.bad{background:#fde8e6;color:#8a2318}
-@media (prefers-color-scheme:dark){.alert.warn{background:#3a2a0c;color:#f5cf8a}.alert.bad{background:#3d1712;color:#f5a99f}}
+.bar i.hc{background:var(--gold)}
+.item{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item img{width:48px;height:48px;border-radius:6px;flex:none;background:var(--line)}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;overflow:hidden;text-overflow:ellipsis}
+.item .t small{color:var(--mut);display:block}
+.item.click{cursor:pointer}
+.item.locked img{filter:grayscale(1);opacity:.55}
+.pts{font-weight:700;color:var(--gold);white-space:nowrap}
+.tag{display:inline-block;font-size:.72rem;padding:1px 6px;border-radius:6px;background:var(--acc2);color:var(--acc);margin-left:4px;vertical-align:middle}
+.tag.hc{background:#f7e7b0;color:#7a5a00}
+.prof{display:flex;gap:12px;align-items:center}
+.prof img{width:72px;height:72px;border-radius:10px}
+.prof h2{margin:0;font-size:1.2rem}
+.mut{color:var(--mut);font-size:.88rem}
+.err{color:var(--bad)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.filters button{border:1px solid var(--line);background:var(--bg);color:var(--txt);border-radius:16px;padding:5px 11px;cursor:pointer;font-size:.85rem}
+.filters button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.back{background:none;border:0;color:var(--acc);cursor:pointer;padding:0 0 10px;font-size:.95rem}
+a{color:var(--acc)}
+.hidden{display:none}
 </style>
 </head>
 <body>
-<header><h1>💧 Compta Aquatic Shape Chartrons</h1><small>Micro-entreprise : recettes, cotisations URSSAF, plafonds</small></header>
-<nav>
-  <button data-tab="dash" class="on">Tableau de bord</button>
-  <button data-tab="add">+ Saisir</button>
-  <button data-tab="list">Livre des recettes</button>
-  <button data-tab="set">Réglages</button>
+<header>
+  <div><h1>🏆 Retro Succès</h1><small id="who">Non connecté</small></div>
+  <button id="btnSettings" aria-label="Réglages">⚙️</button>
+</header>
+<nav id="nav">
+  <button data-tab="profil" class="on">Mon profil</button>
+  <button data-tab="jeux">Mes jeux</button>
+  <button data-tab="recherche">Chercher un jeu</button>
+  <button data-tab="joueur">Chercher un joueur</button>
 </nav>
-<main>
-
-<section id="dash">
-  <div class="card">
-    <div class="row">
-      <div><label>Année</label><select id="year"></select></div>
-      <div><label>Période de déclaration</label><select id="period"></select></div>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Période sélectionnée</h2>
-    <div class="grid">
-      <div class="kpi"><span>CA encaissé</span><b id="pCA">0 €</b></div>
-      <div class="kpi"><span>Cotisations à déclarer</span><b id="pCot">0 €</b></div>
-      <div class="kpi"><span>Dépenses</span><b id="pDep">0 €</b></div>
-      <div class="kpi"><span>Reste net estimé</span><b id="pNet">0 €</b></div>
-    </div>
-    <p class="mut" id="pInfo"></p>
-  </div>
-  <div class="card">
-    <h2>Année <span id="yLbl"></span></h2>
-    <div class="grid">
-      <div class="kpi"><span>CA total</span><b id="yCA">0 €</b></div>
-      <div class="kpi"><span>Cotisations totales</span><b id="yCot">0 €</b></div>
-      <div class="kpi"><span>Reste net estimé</span><b id="yNet">0 €</b></div>
-      <div class="kpi"><span>Nb séances / ventes</span><b id="yNb">0</b></div>
-    </div>
-    <label>Plafond micro-entreprise <span id="plafLbl"></span></label>
-    <div class="bar"><i id="plafBar"></i></div><span class="mut" id="plafTxt"></span>
-    <label>Seuil franchise TVA <span id="tvaLbl"></span></label>
-    <div class="bar"><i id="tvaBar"></i></div><span class="mut" id="tvaTxt"></span>
-    <div id="alerts"></div>
-  </div>
-  <div class="card">
-    <h2>CA par discipline</h2>
-    <table id="byDisc"></table>
-  </div>
-</section>
-
-<section id="add" class="hide">
-  <div class="card">
-    <h2>Nouvelle opération</h2>
-    <div class="row">
-      <div><label>Type</label><select id="fType"><option value="r">Recette</option><option value="d">Dépense</option></select></div>
-      <div><label>Date d'encaissement</label><input type="date" id="fDate"></div>
-    </div>
-    <div class="row">
-      <div><label>Montant (€)</label><input type="number" id="fAmt" step="0.01" min="0" inputmode="decimal"></div>
-      <div id="wDisc"><label>Discipline</label><select id="fDisc"><option>Aquabike</option><option>Aquafitness</option><option>Aquacombat</option><option>Cours particulier</option><option>Autre</option></select></div>
-      <div id="wCat" class="hide"><label>Catégorie</label><select id="fCat"><option>Matériel</option><option>Location bassin</option><option>Musique / abonnements</option><option>Déplacements</option><option>Assurance RC pro</option><option>Formation</option><option>Autre</option></select></div>
-    </div>
-    <div class="row">
-      <div><label>Client / fournisseur</label><input id="fWho" placeholder="ex : Marie D. / Decathlon"></div>
-      <div><label>Mode de paiement</label><select id="fPay"><option>Virement</option><option>CB</option><option>Espèces</option><option>Chèque</option><option>PayPal</option></select></div>
-    </div>
-    <label>Note (n° facture, détail…)</label><input id="fNote">
-    <button class="btn" id="save">Enregistrer</button>
-    <p class="mut" id="saved"></p>
-  </div>
-</section>
-
-<section id="list" class="hide">
-  <div class="card">
-    <h2>Livre des recettes &amp; dépenses</h2>
-    <p class="mut">Le livre des recettes est obligatoire en micro-entreprise : exporte-le régulièrement.</p>
-    <div class="row">
-      <div><label>Filtrer</label><select id="lFilter"><option value="all">Tout</option><option value="r">Recettes</option><option value="d">Dépenses</option></select></div>
-      <div><label>Année</label><select id="lYear"></select></div>
-    </div>
-    <button class="btn sec" id="csv">⬇ Export CSV (Excel)</button>
-    <div style="overflow-x:auto;margin-top:10px"><table id="tbl"></table></div>
-  </div>
-</section>
-
-<section id="set" class="hide">
-  <div class="card">
-    <h2>Taux et seuils</h2>
-    <p class="mut">Valeurs par défaut 2026, activité BNC rattachée à la SSI. Vérifie-les sur autoentrepreneur.urssaf.fr, elles changent souvent.</p>
-    <div class="row">
-      <div><label>Cotisations sociales (%)</label><input type="number" step="0.1" id="sCot"></div>
-      <div><label>Formation pro CFP (%)</label><input type="number" step="0.01" id="sCfp"></div>
-    </div>
-    <div class="row">
-      <div><label>Versement libératoire impôt (%)</label><input type="number" step="0.1" id="sVl"></div>
-      <div><label>Option versement libératoire</label><select id="sVlOn"><option value="0">Non</option><option value="1">Oui</option></select></div>
-    </div>
-    <div class="row">
-      <div><label>ACRE (cotisations −50 %)</label><select id="sAcre"><option value="0">Non</option><option value="1">Oui</option></select></div>
-      <div><label>Fin de l'ACRE</label><input type="date" id="sAcreEnd"></div>
-    </div>
-    <div class="row">
-      <div><label>Déclaration</label><select id="sFreq"><option value="m">Mensuelle</option><option value="t">Trimestrielle</option></select></div>
-      <div><label>Plafond CA (€)</label><input type="number" id="sPlaf"></div>
-    </div>
-    <div class="row">
-      <div><label>Seuil franchise TVA (€)</label><input type="number" id="sTva"></div>
-      <div><label>Seuil TVA majoré (€)</label><input type="number" id="sTvaMaj"></div>
-    </div>
-    <button class="btn" id="saveSet">Enregistrer les réglages</button>
-  </div>
-  <div class="card">
-    <h2>Sauvegarde</h2>
-    <p class="mut">Les données restent sur cet appareil (navigateur). Fais une sauvegarde de temps en temps, et sers-toi-en pour passer sur un autre téléphone.</p>
-    <button class="btn sec" id="exp">⬇ Sauvegarder (JSON)</button>
-    <label class="btn sec" style="display:inline-block;color:var(--acc)">⬆ Restaurer<input type="file" id="imp" accept=".json" class="hide"></label>
-  </div>
-</section>
-</main>
+<main id="main"></main>
 
 <script>
-const $=id=>document.getElementById(id);
-const DEF={cot:26.1,cfp:0.2,vl:2.2,vlOn:0,acre:0,acreEnd:"",freq:"m",plaf:83600,tva:37500,tvaMaj:41250};
-function load(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
-function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){alert("Impossible d'enregistrer sur cet appareil.")}}
-let ops=load("asc_ops",[]), S={...DEF,...load("asc_set",{})};
-const eur=n=>n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
-const MOIS=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+const API = 'https://retroachievements.org/API/';
+const MEDIA = 'https://media.retroachievements.org';
+const SITE = 'https://retroachievements.org';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num = n => Number(n || 0).toLocaleString('fr-FR');
+const date = d => d ? new Date(d.replace(' ', 'T') + (d.includes('Z') || d.includes('+') ? '' : 'Z')).toLocaleDateString('fr-FR') : '';
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
 
-// Cotisations d'une recette (ACRE selon la date)
-function rate(date){
-  let c=+S.cot;
-  if(+S.acre && (!S.acreEnd || date<=S.acreEnd)) c=c/2;
-  return (c + +S.cfp + (+S.vlOn ? +S.vl : 0))/100;
+// --- stockage local (la clé reste sur l'appareil) ---
+const store = {
+  get(k, def) { try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); } catch { return def; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+let cfg = store.get('ra_cfg', { user: '', key: '' });
+const memo = {};
+
+async function ra(endpoint, params = {}) {
+  if (!cfg.key) throw new Error('Ajoute ta clé API dans les réglages ⚙️');
+  const q = new URLSearchParams({ ...params, y: cfg.key });
+  const url = API + endpoint + '.php?' + q;
+  if (memo[url]) return memo[url];
+  const r = await fetch(url);
+  if (r.status === 401 || r.status === 403) throw new Error('Clé API refusée. Vérifie-la dans les réglages ⚙️');
+  if (r.status === 429) throw new Error('Trop de requêtes, réessaie dans une minute.');
+  if (!r.ok) throw new Error('Erreur RetroAchievements (' + r.status + ')');
+  const data = await r.json();
+  memo[url] = data;
+  return data;
 }
-const cotOf=list=>list.filter(o=>o.t==="r").reduce((s,o)=>s+o.a*rate(o.d),0);
-const sum=(list,t)=>list.filter(o=>o.t===t).reduce((s,o)=>s+o.a,0);
 
-// Onglets
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
-  ["dash","add","list","set"].forEach(s=>$(s).classList.toggle("hide",s!==b.dataset.tab));
+const loading = () => '<div class="card mut">Chargement…</div>';
+const errBox = e => `<div class="card err">⚠️ ${esc(e.message || e)}</div>`;
+
+// --- navigation ---
+let tab = 'profil';
+$('#nav').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  tab = b.dataset.tab;
+  document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('on', x === b));
   render();
 });
+$('#btnSettings').onclick = () => { tab = 'reglages'; document.querySelectorAll('#nav button').forEach(x => x.classList.remove('on')); render(); };
 
-function years(){
-  const y=new Set(ops.map(o=>o.d.slice(0,4))); y.add(String(new Date().getFullYear()));
-  return [...y].sort().reverse();
-}
-function fillYears(sel){const v=sel.value; sel.innerHTML=years().map(y=>`<option>${y}</option>`).join(""); if(v && years().includes(v)) sel.value=v;}
-function fillPeriods(){
-  const v=$("period").value, now=new Date();
-  const opts=S.freq==="m"?MOIS.map((m,i)=>[String(i+1).padStart(2,"0"),m]):[["T1","1er trimestre"],["T2","2e trimestre"],["T3","3e trimestre"],["T4","4e trimestre"]];
-  $("period").innerHTML=opts.map(([k,l])=>`<option value="${k}">${l}</option>`).join("");
-  const def=S.freq==="m"?String(now.getMonth()+1).padStart(2,"0"):"T"+(Math.floor(now.getMonth()/3)+1);
-  $("period").value=opts.some(o=>o[0]===v)?v:def;
-}
-function inPeriod(d,y,p){
-  if(d.slice(0,4)!==y) return false;
-  const m=+d.slice(5,7);
-  return p.startsWith("T") ? Math.ceil(m/3)===+p[1] : m===+p;
-}
-function deadline(y,p){
-  // Échéance URSSAF : fin du mois suivant la période
-  let m = p.startsWith("T") ? +p[1]*3 : +p;
-  let yy=+y; m++; if(m>12){m=1;yy++}
-  return new Date(yy,m,0).toLocaleDateString("fr-FR");
-}
-function pct(bar,txt,val,max){const p=Math.min(100,val/max*100); $(bar).style.width=p+"%"; $(bar).style.background=p>=100?"var(--bad)":p>=80?"var(--warn)":"var(--ok)"; $(txt).textContent=`${eur(val)} / ${eur(max)} (${p.toFixed(0)} %)`;}
-
-function render(){
-  fillYears($("year")); fillYears($("lYear")); fillPeriods();
-  const y=$("year").value, p=$("period").value;
-  const P=ops.filter(o=>inPeriod(o.d,y,p)), Y=ops.filter(o=>o.d.startsWith(y));
-  const pca=sum(P,"r"), pc=cotOf(P), pd=sum(P,"d");
-  $("pCA").textContent=eur(pca); $("pCot").textContent=eur(pc); $("pDep").textContent=eur(pd); $("pNet").textContent=eur(pca-pc-pd);
-  $("pInfo").textContent=`À déclarer sur autoentrepreneur.urssaf.fr avant le ${deadline(y,p)}, même si le CA est à 0 €.`;
-  const yca=sum(Y,"r"), yc=cotOf(Y), yd=sum(Y,"d");
-  $("yLbl").textContent=y; $("yCA").textContent=eur(yca); $("yCot").textContent=eur(yc); $("yNet").textContent=eur(yca-yc-yd); $("yNb").textContent=Y.filter(o=>o.t==="r").length;
-  $("plafLbl").textContent=`(${eur(+S.plaf)})`; $("tvaLbl").textContent=`(${eur(+S.tva)})`;
-  pct("plafBar","plafTxt",yca,+S.plaf); pct("tvaBar","tvaTxt",yca,+S.tva);
-  let al="";
-  if(yca>=+S.tvaMaj) al+=`<div class="alert bad">Seuil TVA majoré dépassé : TVA à facturer dès maintenant. Contacte ton SIE.</div>`;
-  else if(yca>=+S.tva) al+=`<div class="alert warn">Seuil de franchise TVA dépassé : tu devras facturer la TVA à partir du 1er janvier prochain.</div>`;
-  else if(yca>=0.8*+S.tva) al+=`<div class="alert warn">Tu approches du seuil de franchise TVA (80 % atteints).</div>`;
-  if(yca>=+S.plaf) al+=`<div class="alert bad">Plafond micro dépassé cette année : si ça se répète l'an prochain, tu sors du régime micro.</div>`;
-  $("alerts").innerHTML=al;
-  const by={}; Y.filter(o=>o.t==="r").forEach(o=>by[o.c]=(by[o.c]||0)+o.a);
-  $("byDisc").innerHTML=Object.keys(by).length?Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${k}</td><td class="n">${eur(v)}</td><td class="n mut">${(v/yca*100).toFixed(0)} %</td></tr>`).join(""):`<tr><td class="mut">Aucune recette cette année.</td></tr>`;
-  renderList();
-}
-const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function filtered(){const f=$("lFilter").value,y=$("lYear").value; return ops.filter(o=>o.d.startsWith(y)&&(f==="all"||o.t===f)).sort((a,b)=>b.d.localeCompare(a.d));}
-function renderList(){
-  const L=filtered();
-  $("tbl").innerHTML=`<tr><th>Date</th><th>Détail</th><th class="n">Montant</th><th></th></tr>`+(L.length?L.map(o=>`<tr><td>${o.d.split("-").reverse().join("/")}</td><td>${o.t==="d"?'<span class="tag">dépense</span> ':""}${esc(o.c)} · ${esc(o.w)}<br><span class="mut">${esc(o.p)}${o.n?" · "+esc(o.n):""}</span></td><td class="n" style="color:${o.t==="d"?"var(--bad)":"inherit"}">${o.t==="d"?"−":""}${eur(o.a)}</td><td><button class="del" data-id="${o.id}" title="Supprimer">✕</button></td></tr>`).join(""):`<tr><td colspan="4" class="mut">Rien pour l'instant.</td></tr>`);
-  document.querySelectorAll(".del").forEach(b=>b.onclick=()=>{if(confirm("Supprimer cette ligne ?")){ops=ops.filter(o=>o.id!==b.dataset.id);store("asc_ops",ops);render();}});
+function render() {
+  $('#who').textContent = cfg.user ? 'Connecté : ' + cfg.user : 'Non connecté';
+  if (!cfg.user || !cfg.key) return renderSettings(true);
+  ({ profil: () => renderProfile(cfg.user, true), jeux: () => renderGames(cfg.user), recherche: renderSearch, joueur: renderPlayerSearch, reglages: () => renderSettings(false) })[tab]();
 }
 
-// Saisie
-$("fDate").value=new Date().toISOString().slice(0,10);
-$("fType").onchange=()=>{const d=$("fType").value==="d"; $("wDisc").classList.toggle("hide",d); $("wCat").classList.toggle("hide",!d);};
-$("save").onclick=()=>{
-  const a=parseFloat($("fAmt").value), d=$("fDate").value;
-  if(!(a>0)||!d){alert("Indique une date et un montant.");return;}
-  const t=$("fType").value;
-  ops.push({id:Date.now()+""+Math.random().toString(36).slice(2,6),t,d,a,c:t==="r"?$("fDisc").value:$("fCat").value,w:$("fWho").value.trim(),p:$("fPay").value,n:$("fNote").value.trim()});
-  store("asc_ops",ops);
-  $("saved").textContent=`✓ ${t==="r"?"Recette":"Dépense"} de ${eur(a)} enregistrée.`;
-  $("fAmt").value="";$("fWho").value="";$("fNote").value="";
-  render();
-};
-$("lFilter").onchange=renderList; $("lYear").onchange=renderList;
-$("year").onchange=render; $("period").onchange=render;
+// --- réglages ---
+function renderSettings(first) {
+  $('#main').innerHTML = `
+  <div class="card">
+    <h2>${first ? '👋 Bienvenue ! Connecte ton compte' : '⚙️ Réglages'}</h2>
+    <label>Ton pseudo RetroAchievements</label>
+    <input id="sUser" value="${esc(cfg.user)}" autocomplete="username" autocapitalize="off">
+    <label>Ta Web API Key</label>
+    <input id="sKey" value="${esc(cfg.key)}" type="password" autocomplete="off">
+    <p class="mut">Où la trouver : <a href="${SITE}/settings" target="_blank" rel="noopener">retroachievements.org → Settings</a>, section <b>Keys</b>.<br>
+    🔒 Elle reste uniquement sur cet appareil.</p>
+    <button class="btn" id="sSave">Enregistrer</button>
+    ${first ? '' : '<button class="btn sec" id="sOut">Se déconnecter</button>'}
+    <div id="sMsg"></div>
+  </div>`;
+  $('#sSave').onclick = async () => {
+    const user = $('#sUser').value.trim(), key = $('#sKey').value.trim();
+    if (!user || !key) { $('#sMsg').innerHTML = '<p class="err">Remplis les deux champs.</p>'; return; }
+    cfg = { user, key };
+    $('#sMsg').innerHTML = '<p class="mut">Vérification…</p>';
+    try {
+      const p = await ra('API_GetUserProfile', { u: user });
+      cfg.user = p.User || user; store.set('ra_cfg', cfg);
+      tab = 'profil';
+      document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('on', x.dataset.tab === 'profil'));
+      render();
+    } catch (e) { $('#sMsg').innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
+  };
+  const out = $('#sOut');
+  if (out) out.onclick = () => { cfg = { user: '', key: '' }; store.set('ra_cfg', cfg); render(); };
+}
 
-// Export CSV
-$("csv").onclick=()=>{
-  const rows=[["Date","Type","Catégorie/Discipline","Client/Fournisseur","Mode de paiement","Montant","Note"]].concat(filtered().slice().reverse().map(o=>[o.d.split("-").reverse().join("/"),o.t==="r"?"Recette":"Dépense",o.c,o.w,o.p,o.a.toFixed(2).replace(".",","),o.n]));
-  const csv="﻿"+rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\n");
-  dl(new Blob([csv],{type:"text/csv"}),`livre-recettes-${$("lYear").value}.csv`);
-};
-function dl(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+// --- profil (le mien ou celui d'un autre) ---
+async function renderProfile(user, mine, target = $('#main'), backFn) {
+  target.innerHTML = loading();
+  try {
+    const [p, recent, prog] = await Promise.all([
+      ra('API_GetUserProfile', { u: user }),
+      ra('API_GetUserRecentAchievements', { u: user, m: 60 * 24 * 30 }).catch(() => []),
+      ra('API_GetUserCompletionProgress', { u: user, c: 500 }).catch(() => ({ Results: [] }))
+    ]);
+    const games = prog.Results || [];
+    const mastered = games.filter(g => g.HighestAwardKind === 'mastered').length;
+    const beaten = games.filter(g => g.HighestAwardKind && g.HighestAwardKind.startsWith('beaten')).length;
+    target.innerHTML = `
+    ${backFn ? '<button class="back" id="pBack">← Retour</button>' : ''}
+    <div class="card">
+      <div class="prof">
+        <img src="${MEDIA}/UserPic/${encodeURIComponent(p.User)}.png" alt="">
+        <div><h2>${esc(p.User)}</h2>
+        <div class="mut">${p.Motto ? '« ' + esc(p.Motto) + ' »<br>' : ''}Membre depuis le ${date(p.MemberSince)}</div></div>
+      </div>
+      ${p.RichPresenceMsg ? `<p class="mut">🎮 ${esc(p.RichPresenceMsg)}</p>` : ''}
+      <div class="grid" style="margin-top:10px">
+        <div class="kpi"><span>Points hardcore</span><b>${num(p.TotalPoints)}</b></div>
+        <div class="kpi"><span>Points softcore</span><b>${num(p.TotalSoftcorePoints)}</b></div>
+        <div class="kpi"><span>Jeux commencés</span><b>${num(prog.Total ?? games.length)}</b></div>
+        <div class="kpi"><span>Maîtrisés / battus</span><b>${mastered} / ${beaten}</b></div>
+      </div>
+      ${mine ? `<a class="btn sec" style="display:inline-block;text-decoration:none" href="${SITE}/settings" target="_blank" rel="noopener">✏️ Modifier mon profil (sur le site)</a>` : `<a class="btn sec" style="display:inline-block;text-decoration:none" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">Voir sur le site</a>`}
+    </div>
+    <div class="card">
+      <h2>Succès récents (30 jours)</h2>
+      ${recent.length ? recent.slice(0, 25).map(a => `
+        <div class="item click" data-game="${a.GameID}">
+          <img src="${MEDIA}${esc(a.BadgeURL)}" alt="" loading="lazy">
+          <div class="t"><b>${esc(a.Title)}${a.HardcoreMode ? '<span class="tag hc">HC</span>' : ''}</b>
+          <small>${esc(a.GameTitle)} · ${date(a.Date)}</small></div>
+          <span class="pts">${a.Points} pts</span>
+        </div>`).join('') : '<p class="mut">Aucun succès ces 30 derniers jours.</p>'}
+    </div>
+    ${!mine && games.length ? `<div class="card"><h2>Ses jeux</h2><div id="pGames"></div></div>` : ''}`;
+    if (backFn) $('#pBack').onclick = backFn;
+    const reopen = () => renderProfile(user, mine, target, backFn);
+    target.querySelectorAll('[data-game]').forEach(el => el.onclick = () => renderGame(el.dataset.game, user, reopen));
+    if (!mine && games.length) gameList(games, $('#pGames'), id => renderGame(id, user, reopen));
+  } catch (e) { target.innerHTML = errBox(e); }
+}
 
-// Réglages
-const SF={cot:"sCot",cfp:"sCfp",vl:"sVl",vlOn:"sVlOn",acre:"sAcre",acreEnd:"sAcreEnd",freq:"sFreq",plaf:"sPlaf",tva:"sTva",tvaMaj:"sTvaMaj"};
-for(const k in SF) $(SF[k]).value=S[k];
-$("saveSet").onclick=()=>{for(const k in SF) S[k]=$(SF[k]).value; store("asc_set",S); render(); alert("Réglages enregistrés.");};
-$("exp").onclick=()=>dl(new Blob([JSON.stringify({ops,S},null,1)],{type:"application/json"}),`sauvegarde-compta-${new Date().toISOString().slice(0,10)}.json`);
-$("imp").onchange=e=>{const f=e.target.files[0]; if(!f) return; f.text().then(t=>{try{const j=JSON.parse(t); if(!Array.isArray(j.ops)) throw 0; if(confirm(`Remplacer les données actuelles par ${j.ops.length} opérations ?`)){ops=j.ops;S={...DEF,...j.S};store("asc_ops",ops);store("asc_set",S);for(const k in SF) $(SF[k]).value=S[k];render();}}catch(_){alert("Fichier invalide.");}});};
+// --- liste de jeux avec progression ---
+function gameList(games, el, onOpen) {
+  el.innerHTML = games.map(g => {
+    const max = g.MaxPossible || 0, s = g.NumAwarded || 0, h = g.NumAwardedHardcore || 0;
+    const award = { mastered: '👑 Maîtrisé', completed: '✅ Complété', 'beaten-hardcore': '⭐ Battu HC', 'beaten-softcore': '⭐ Battu' }[g.HighestAwardKind] || '';
+    return `<div class="item click" data-id="${g.GameID}">
+      <img src="${MEDIA}${esc(g.ImageIcon)}" alt="" loading="lazy">
+      <div class="t"><b>${esc(g.Title)}</b>
+        <small>${esc(g.ConsoleName)} · ${Math.max(s, h)}/${max} ${award ? '· ' + award : ''}</small>
+        <div class="bar"><i class="${h >= s ? 'hc' : ''}" style="width:${pct(Math.max(s, h), max)}%"></i></div>
+      </div>
+      <span class="pts">${pct(Math.max(s, h), max)}%</span>
+    </div>`;
+  }).join('') || '<p class="mut">Aucun jeu.</p>';
+  el.querySelectorAll('[data-id]').forEach(x => x.onclick = () => onOpen(x.dataset.id));
+}
+
+let gamesFilter = 'tous', gamesSort = 'recent';
+async function renderGames(user) {
+  const m = $('#main');
+  m.innerHTML = loading();
+  try {
+    const prog = await ra('API_GetUserCompletionProgress', { u: user, c: 500 });
+    let games = prog.Results || [];
+    const draw = () => {
+      const pc = g => pct(Math.max(g.NumAwarded, g.NumAwardedHardcore), g.MaxPossible);
+      let list = games.filter(g => gamesFilter === 'tous' ? true : gamesFilter === 'cours' ? pc(g) < 100 : pc(g) === 100);
+      if (gamesSort === 'pct') list = [...list].sort((a, b) => pc(b) - pc(a));
+      if (gamesSort === 'nom') list = [...list].sort((a, b) => a.Title.localeCompare(b.Title));
+      m.innerHTML = `<div class="card">
+        <h2>Mes jeux (${games.length})</h2>
+        <div class="filters" id="gF">
+          ${[['tous', 'Tous'], ['cours', 'En cours'], ['finis', '100 %']].map(([k, l]) => `<button data-f="${k}" class="${gamesFilter === k ? 'on' : ''}">${l}</button>`).join('')}
+        </div>
+        <select id="gS"><option value="recent">Joués récemment</option><option value="pct">Plus avancés</option><option value="nom">Ordre alphabétique</option></select>
+        <div id="gL" style="margin-top:8px"></div></div>`;
+      $('#gS').value = gamesSort;
+      $('#gS').onchange = e => { gamesSort = e.target.value; draw(); };
+      $('#gF').onclick = e => { const b = e.target.closest('button'); if (b) { gamesFilter = b.dataset.f; draw(); } };
+      gameList(list, $('#gL'), id => renderGame(id, user, () => renderGames(user)));
+    };
+    draw();
+  } catch (e) { m.innerHTML = errBox(e); }
+}
+
+// --- détail d'un jeu : tous les succès + ce qui est débloqué ---
+let achFilter = 'tous';
+async function renderGame(gameId, user, backFn) {
+  const m = $('#main');
+  m.innerHTML = loading(); window.scrollTo(0, 0);
+  try {
+    const g = await ra('API_GetGameInfoAndUserProgress', { g: gameId, u: user });
+    const achs = Object.values(g.Achievements || {}).sort((a, b) => a.DisplayOrder - b.DisplayOrder || a.ID - b.ID);
+    const got = a => a.DateEarnedHardcore || a.DateEarned;
+    const done = achs.filter(got).length;
+    const totalPts = achs.reduce((s, a) => s + (a.Points || 0), 0);
+    const myPts = achs.filter(got).reduce((s, a) => s + (a.Points || 0), 0);
+    const draw = () => {
+      const list = achs.filter(a => achFilter === 'tous' ? true : achFilter === 'ok' ? got(a) : !got(a));
+      m.innerHTML = `
+      <button class="back" id="gBack">← Retour</button>
+      <div class="card">
+        <div class="prof"><img src="${MEDIA}${esc(g.ImageIcon)}" alt="">
+          <div><h2>${esc(g.Title)}</h2><div class="mut">${esc(g.ConsoleName)}${g.Released ? ' · ' + esc(g.Released) : ''}</div></div></div>
+        <div class="grid" style="margin-top:10px">
+          <div class="kpi"><span>${user === cfg.user ? 'Mes succès' : 'Succès de ' + esc(user)}</span><b>${done} / ${achs.length}</b></div>
+          <div class="kpi"><span>Points</span><b>${num(myPts)} / ${num(totalPts)}</b></div>
+          <div class="kpi"><span>Progression</span><b>${pct(done, achs.length)} %</b></div>
+        </div>
+        <div class="bar"><i class="hc" style="width:${pct(done, achs.length)}%"></i></div>
+        <a href="${SITE}/game/${g.ID || gameId}" target="_blank" rel="noopener" class="mut">Voir sur le site ↗</a>
+      </div>
+      <div class="card">
+        <h2>Succès</h2>
+        <div class="filters" id="aF">
+          ${[['tous', 'Tous'], ['ok', 'Débloqués'], ['ko', 'À faire']].map(([k, l]) => `<button data-f="${k}" class="${achFilter === k ? 'on' : ''}">${l}</button>`).join('')}
+        </div>
+        ${achs.length ? list.map(a => `
+          <div class="item ${got(a) ? '' : 'locked'}">
+            <img src="${MEDIA}/Badge/${esc(a.BadgeName)}${got(a) ? '' : '_lock'}.png" alt="" loading="lazy">
+            <div class="t"><b>${esc(a.Title)}${a.DateEarnedHardcore ? '<span class="tag hc">HC</span>' : a.DateEarned ? '<span class="tag">SC</span>' : ''}</b>
+              <small>${esc(a.Description)}</small>
+              ${got(a) ? `<small>✅ ${date(got(a))}</small>` : ''}
+            </div>
+            <span class="pts">${a.Points} pts</span>
+          </div>`).join('') || '<p class="mut">Rien ici.</p>' : '<p class="mut">Ce jeu n\'a pas encore de succès.</p>'}
+      </div>`;
+      $('#gBack').onclick = backFn;
+      $('#aF').onclick = e => { const b = e.target.closest('button'); if (b) { achFilter = b.dataset.f; draw(); } };
+    };
+    draw();
+  } catch (e) { m.innerHTML = errBox(e); }
+}
+
+// --- recherche d'un jeu par console ---
+let search = { console: store.get('ra_console', ''), text: '' };
+async function renderSearch() {
+  const m = $('#main');
+  m.innerHTML = loading();
+  try {
+    const consoles = (await ra('API_GetConsoleIDs', { a: 1, g: 1 })).sort((a, b) => a.Name.localeCompare(b.Name));
+    m.innerHTML = `<div class="card">
+      <h2>Chercher un jeu</h2>
+      <label>Console</label>
+      <select id="rC"><option value="">— Choisis une console —</option>${consoles.map(c => `<option value="${c.ID}">${esc(c.Name)}</option>`).join('')}</select>
+      <label>Nom du jeu</label>
+      <input id="rT" placeholder="ex : Zelda" value="${esc(search.text)}" autocomplete="off">
+      <div id="rL" style="margin-top:8px"></div></div>`;
+    $('#rC').value = search.console;
+    let list = [];
+    const draw = () => {
+      const el = $('#rL');
+      if (!search.console) { el.innerHTML = '<p class="mut">Choisis une console pour commencer.</p>'; return; }
+      const t = search.text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+      const res = list.filter(g => g.Title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(t)).slice(0, 100);
+      el.innerHTML = res.map(g => `<div class="item click" data-id="${g.ID}">
+        <img src="${MEDIA}${esc(g.ImageIcon)}" alt="" loading="lazy">
+        <div class="t"><b>${esc(g.Title)}</b><small>${g.NumAchievements} succès · ${num(g.Points)} pts</small></div></div>`).join('')
+        || '<p class="mut">Aucun jeu trouvé.</p>';
+      if (res.length === 100) el.innerHTML += '<p class="mut">100 premiers résultats — précise ta recherche.</p>';
+      el.querySelectorAll('[data-id]').forEach(x => x.onclick = () => renderGame(x.dataset.id, cfg.user, renderSearch));
+    };
+    const load = async () => {
+      if (!search.console) { list = []; return draw(); }
+      $('#rL').innerHTML = '<p class="mut">Chargement des jeux…</p>';
+      try { list = await ra('API_GetGameList', { i: search.console, f: 1 }); draw(); }
+      catch (e) { $('#rL').innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
+    };
+    $('#rC').onchange = e => { search.console = e.target.value; store.set('ra_console', search.console); load(); };
+    $('#rT').oninput = e => { search.text = e.target.value; draw(); };
+    load();
+  } catch (e) { m.innerHTML = errBox(e); }
+}
+
+// --- recherche d'un joueur ---
+let lastPlayer = '';
+function renderPlayerSearch() {
+  const m = $('#main');
+  m.innerHTML = `<div class="card">
+    <h2>Chercher un joueur</h2>
+    <label>Pseudo exact</label>
+    <input id="pU" value="${esc(lastPlayer)}" autocapitalize="off" autocomplete="off">
+    <button class="btn" id="pGo">Rechercher</button></div><div id="pRes"></div>`;
+  const go = () => {
+    lastPlayer = $('#pU').value.trim(); if (!lastPlayer) return;
+    renderProfile(lastPlayer, false, $('#pRes'));
+  };
+  $('#pGo').onclick = go;
+  $('#pU').onkeydown = e => { if (e.key === 'Enter') go(); };
+  if (lastPlayer) go();
+}
 
 render();
 </script>
