@@ -2,76 +2,131 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Retro Succès</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
-<meta name="theme-color" content="#1b1f3b">
+<meta name="theme-color" content="#0d0e22">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Retro Succès">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f3f4fa;--card:#fff;--txt:#161a33;--mut:#5f6585;--acc:#4b5bd6;--acc2:#e6e8fb;--gold:#d9a400;--ok:#1f8a4c;--bad:#c0392b;--line:#dfe1ee;--head:#1b1f3b}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1224;--card:#181c34;--txt:#e8eaf6;--mut:#9aa0c3;--acc:#8c98ff;--acc2:#252b52;--line:#2a3058;--head:#0a0c1a}}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
-header{background:var(--head);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-header h1{margin:0;font-size:1.15rem}
-header small{opacity:.8;font-size:.8rem}
-header button{background:none;border:1px solid #fff5;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
-nav{display:flex;gap:4px;padding:8px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2;overflow-x:auto}
-nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 10px;border-radius:8px;font-size:.92rem;white-space:nowrap;cursor:pointer}
-nav button.on{background:var(--acc2);color:var(--acc);font-weight:600}
+:root{--bg:#0d0e22;--card:#1a1c42;--card2:#24275a;--txt:#eef0ff;--mut:#a3a8d6;--line:#2f3373;
+--gold:#ffc83d;--pink:#ff5fa2;--cyan:#33d6ff;--green:#3ee08f;--orange:#ff9f43;--violet:#9b7bff;--red:#ff5c6c;
+--grad:linear-gradient(135deg,#6a3df5 0%,#d43fa0 55%,#ff8a3d 100%)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--txt);min-height:100vh;
+background:radial-gradient(1200px 600px at 100% -10%,#3b1f7a55,transparent 60%),radial-gradient(900px 500px at -10% 30%,#0f5f8a40,transparent 60%),var(--bg);
+padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+header{background:var(--grad);padding:calc(14px + env(safe-area-inset-top)) 16px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 4px 24px #d43fa055}
+header h1{margin:0;font-family:'Press Start 2P',monospace;font-size:.95rem;letter-spacing:.5px;text-shadow:2px 2px 0 #0004}
+header small{opacity:.9;font-size:.78rem;display:block;margin-top:6px}
+header button{background:#ffffff26;border:0;color:#fff;border-radius:10px;padding:8px 11px;font-size:1rem;cursor:pointer}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#12143aee;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:6px 2px;border-radius:12px;font-size:.68rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+nav button span{font-size:1.3rem;filter:grayscale(.6)}
+nav button.on{color:#fff;background:linear-gradient(135deg,#6a3df555,#d43fa055)}
+nav button.on span{filter:none}
 main{max-width:760px;margin:0 auto;padding:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
-.card h2{font-size:1rem;margin:0 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.kpi{background:var(--acc2);border-radius:10px;padding:10px}
-.kpi b{display:block;font-size:1.25rem;margin-top:2px}
-.kpi span{font-size:.8rem;color:var(--mut)}
-label{display:block;font-size:.85rem;color:var(--mut);margin-top:8px}
-input,select{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--txt);font-size:1rem}
-.btn{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:1rem;cursor:pointer;margin-top:12px}
-.btn.sec{background:var(--acc2);color:var(--acc)}
-.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 2px}
-.bar i{display:block;height:100%;background:var(--ok)}
-.bar i.hc{background:var(--gold)}
-.item{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.card{background:linear-gradient(180deg,var(--card),#171938);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px;box-shadow:0 6px 20px #0004}
+.card h2{font-size:1rem;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.card h2::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--c,var(--pink))}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(3,1fr)}}
+.kpi{--c:var(--cyan);border-radius:12px;padding:10px 12px;background:color-mix(in srgb,var(--c) 16%,var(--card));border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.kpi span{font-size:.75rem;color:var(--mut)}
+.kpi b{display:block;font-size:1.25rem;margin-top:3px;color:var(--c)}
+.kpi em{font-style:normal;font-size:.8rem;color:var(--txt);opacity:.8}
+.stats{margin:0;padding:0;list-style:none}
+.stats li{display:flex;align-items:baseline;gap:6px;padding:7px 0;font-size:.92rem}
+.stats li span{color:var(--cyan)}
+.stats li i{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px)}
+.stats li b{color:var(--txt)}
+.stats li b.g{color:var(--gold)}
+.stats li b.m{color:var(--mut);font-weight:400;font-style:italic}
+label{display:block;font-size:.85rem;color:var(--mut);margin-top:10px;margin-bottom:4px}
+input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:#0f1030;color:var(--txt);font-size:1rem}
+input:focus,select:focus{outline:2px solid var(--violet);border-color:transparent}
+.btn{background:var(--grad);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:12px;display:inline-block;text-decoration:none}
+.btn.sec{background:var(--card2);color:var(--cyan);border:1px solid var(--line)}
+.bar{height:8px;background:#0f1030;border-radius:6px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:6px}
+.bar i.hc{background:linear-gradient(90deg,var(--orange),var(--gold))}
+.item{display:flex;gap:11px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .item:last-child{border-bottom:0}
-.item img{width:48px;height:48px;border-radius:6px;flex:none;background:var(--line)}
+.item img{width:50px;height:50px;border-radius:8px;flex:none;background:#0f1030;object-fit:cover}
 .item .t{flex:1;min-width:0}
-.item .t b{display:block;overflow:hidden;text-overflow:ellipsis}
-.item .t small{color:var(--mut);display:block}
+.item .t b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .t small{color:var(--mut);display:block;margin-top:2px}
 .item.click{cursor:pointer}
-.item.locked img{filter:grayscale(1);opacity:.55}
-.pts{font-weight:700;color:var(--gold);white-space:nowrap}
-.tag{display:inline-block;font-size:.72rem;padding:1px 6px;border-radius:6px;background:var(--acc2);color:var(--acc);margin-left:4px;vertical-align:middle}
-.tag.hc{background:#f7e7b0;color:#7a5a00}
-.prof{display:flex;gap:12px;align-items:center}
-.prof img{width:72px;height:72px;border-radius:10px}
-.prof h2{margin:0;font-size:1.2rem}
+.item.click:active{background:#ffffff08}
+.item.locked img{filter:grayscale(1);opacity:.5}
+.item.locked .t b{color:var(--mut)}
+.pts{font-weight:800;color:var(--gold);white-space:nowrap;font-size:.9rem}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:5px;vertical-align:middle;background:#33d6ff22;color:var(--cyan)}
+.tag.hc{background:#ffc83d22;color:var(--gold)}
+.tag.pro{background:#9b7bff26;color:var(--violet)}
+.tag.win{background:#3ee08f22;color:var(--green)}
+.tag.mis{background:#ff5c6c22;color:var(--red)}
+.chip{display:inline-block;font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:20px;color:#fff;background:hsl(var(--h) 65% 42%)}
+.prof{display:flex;gap:14px;align-items:center}
+.avatar{width:84px;height:84px;border-radius:16px;border:3px solid transparent;background:var(--grad) border-box;object-fit:cover;flex:none}
+.prof h2{margin:0;font-size:1.35rem}
+.prof h2::before{display:none}
 .mut{color:var(--mut);font-size:.88rem}
-.err{color:var(--bad)}
-.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.filters button{border:1px solid var(--line);background:var(--bg);color:var(--txt);border-radius:16px;padding:5px 11px;cursor:pointer;font-size:.85rem}
-.filters button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.back{background:none;border:0;color:var(--acc);cursor:pointer;padding:0 0 10px;font-size:.95rem}
-a{color:var(--acc)}
+.err{color:var(--red)}
+.now{display:flex;gap:12px;align-items:center;background:#0f1030;border-radius:12px;padding:10px;margin-top:12px;border:1px solid var(--line)}
+.now img{width:56px;height:56px;border-radius:8px}
+.now .rp{color:var(--cyan);font-size:.85rem;margin-top:3px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.filters button{border:1px solid var(--line);background:#0f1030;color:var(--txt);border-radius:20px;padding:6px 13px;cursor:pointer;font-size:.85rem}
+.filters button.on{background:var(--grad);border-color:transparent;color:#fff;font-weight:600}
+.back{background:none;border:0;color:var(--cyan);cursor:pointer;padding:0 0 12px;font-size:.95rem}
+a{color:var(--cyan)}
+.shots{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:4px}
+.shots img{height:120px;border-radius:8px;flex:none;background:#0f1030}
+.hero{display:flex;gap:14px;align-items:flex-start}
+.hero .box{width:96px;border-radius:8px;flex:none}
+.hero h2{margin:0 0 6px;font-size:1.2rem}
+.hero h2::before{display:none}
+.emu{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.emu span{background:#9b7bff22;color:#d2c4ff;border:1px solid #9b7bff55;border-radius:8px;padding:4px 9px;font-size:.85rem}
+.hash{padding:8px 0;border-bottom:1px solid var(--line);font-size:.85rem;word-break:break-word}
+.hash:last-child{border-bottom:0}
+.hash code{color:var(--mut);font-size:.72rem}
+.com{padding:10px 0;border-bottom:1px solid var(--line)}
+.com:last-child{border-bottom:0}
+.com b{color:var(--pink)}
+.com small{color:var(--mut);margin-left:6px}
+.com p{margin:4px 0 0;white-space:pre-wrap;word-break:break-word;font-size:.92rem}
+.sheet{position:fixed;inset:0;z-index:10;display:flex;align-items:flex-end;justify-content:center}
+.sheet.hidden{display:none}
+.sheet .bg{position:absolute;inset:0;background:#000a}
+.sheet .box{position:relative;background:var(--card);border-top:3px solid transparent;border-image:var(--grad) 1;width:100%;max-width:760px;max-height:85vh;overflow-y:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.sheet .close{position:absolute;right:12px;top:10px;background:var(--card2);border:0;color:var(--txt);border-radius:50%;width:32px;height:32px;font-size:1rem;cursor:pointer}
+.big{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+.big img{width:72px;height:72px;border-radius:10px}
+.big.locked img{filter:grayscale(1);opacity:.5}
 .hidden{display:none}
 </style>
 </head>
 <body>
 <header>
-  <div><h1>🏆 Retro Succès</h1><small id="who">Non connecté</small></div>
+  <div><h1>RETRO SUCCÈS</h1><small id="who">Non connecté</small></div>
   <button id="btnSettings" aria-label="Réglages">⚙️</button>
 </header>
-<nav id="nav">
-  <button data-tab="profil" class="on">Mon profil</button>
-  <button data-tab="jeux">Mes jeux</button>
-  <button data-tab="recherche">Chercher un jeu</button>
-  <button data-tab="joueur">Chercher un joueur</button>
-</nav>
 <main id="main"></main>
+<nav id="nav">
+  <button data-tab="profil" class="on"><span>👤</span>Profil</button>
+  <button data-tab="jeux"><span>🎮</span>Mes jeux</button>
+  <button data-tab="recherche"><span>🔎</span>Jeux</button>
+  <button data-tab="joueur"><span>👥</span>Joueurs</button>
+</nav>
+<div id="sheet" class="sheet hidden"><div class="bg"></div><div class="box"><button class="close" aria-label="Fermer">✕</button><div id="sheetBody"></div></div></div>
 
 <script>
 const API = 'https://retroachievements.org/API/';
@@ -80,21 +135,27 @@ const SITE = 'https://retroachievements.org';
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num = n => Number(n || 0).toLocaleString('fr-FR');
-const date = d => d ? new Date(d.replace(' ', 'T') + (d.includes('Z') || d.includes('+') ? '' : 'Z')).toLocaleDateString('fr-FR') : '';
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const parseD = d => { if (!d) return null; const s = String(d); const x = new Date(/T|Z|\+/.test(s) ? s : s.replace(' ', 'T') + 'Z'); return isNaN(x) ? null : x; };
+const fDate = d => { const x = parseD(d); return x ? x.toLocaleDateString('fr-FR') : ''; };
+const fDateTime = d => { const x = parseD(d); return x ? x.toLocaleDateString('fr-FR') + ' à ' + x.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : ''; };
+const hue = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+const chip = name => `<span class="chip" style="--h:${hue(name)}">${esc(name)}</span>`;
+// images : si le serveur média échoue, on retente sur le site principal
+const img = (path, cls = '', extra = '') => path ? `<img src="${MEDIA}${esc(path)}" class="${cls}" alt="" loading="lazy" ${extra} onerror="if(!this.dataset.r){this.dataset.r=1;this.src=this.src.replace('${MEDIA}','${SITE}')}">` : `<img class="${cls}" alt="">`;
 
-// --- stockage local (la clé reste sur l'appareil) ---
+// --- stockage local : identifiants mémorisés sur l'appareil ---
 const store = {
   get(k, def) { try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); } catch { return def; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
 let cfg = store.get('ra_cfg', { user: '', key: '' });
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch {}
 const memo = {};
 
 async function ra(endpoint, params = {}) {
   if (!cfg.key) throw new Error('Ajoute ta clé API dans les réglages ⚙️');
-  const q = new URLSearchParams({ ...params, y: cfg.key });
-  const url = API + endpoint + '.php?' + q;
+  const url = API + endpoint + '.php?' + new URLSearchParams({ ...params, y: cfg.key });
   if (memo[url]) return memo[url];
   const r = await fetch(url);
   if (r.status === 401 || r.status === 403) throw new Error('Clé API refusée. Vérifie-la dans les réglages ⚙️');
@@ -104,42 +165,54 @@ async function ra(endpoint, params = {}) {
   memo[url] = data;
   return data;
 }
+async function allProgress(user) {
+  let out = [], o = 0, total = 1;
+  while (o < total && o < 5000) {
+    const r = await ra('API_GetUserCompletionProgress', { u: user, c: 500, o });
+    out = out.concat(r.Results || []); total = r.Total ?? out.length; o += 500;
+    if (!(r.Results || []).length) break;
+  }
+  return out;
+}
 
-const loading = () => '<div class="card mut">Chargement…</div>';
+const loading = () => '<div class="card mut">⏳ Chargement…</div>';
 const errBox = e => `<div class="card err">⚠️ ${esc(e.message || e)}</div>`;
 
 // --- navigation ---
 let tab = 'profil';
-$('#nav').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b) return;
-  tab = b.dataset.tab;
-  document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('on', x === b));
-  render();
-});
-$('#btnSettings').onclick = () => { tab = 'reglages'; document.querySelectorAll('#nav button').forEach(x => x.classList.remove('on')); render(); };
+const setTab = t => { tab = t; document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('on', x.dataset.tab === t)); };
+$('#nav').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; setTab(b.dataset.tab); window.scrollTo(0, 0); render(); });
+$('#btnSettings').onclick = () => { setTab('reglages'); render(); };
 
 function render() {
-  $('#who').textContent = cfg.user ? 'Connecté : ' + cfg.user : 'Non connecté';
+  $('#who').textContent = cfg.user ? '🟢 ' + cfg.user : 'Non connecté';
   if (!cfg.user || !cfg.key) return renderSettings(true);
   ({ profil: () => renderProfile(cfg.user, true), jeux: () => renderGames(cfg.user), recherche: renderSearch, joueur: renderPlayerSearch, reglages: () => renderSettings(false) })[tab]();
 }
 
-// --- réglages ---
+// --- fenêtre du bas (détail d'un succès) ---
+const sheet = { open(html) { $('#sheetBody').innerHTML = html; $('#sheet').classList.remove('hidden'); $('#sheet .box').scrollTop = 0; }, close() { $('#sheet').classList.add('hidden'); } };
+$('#sheet .bg').onclick = sheet.close; $('#sheet .close').onclick = sheet.close;
+
+// --- réglages / connexion ---
 function renderSettings(first) {
   $('#main').innerHTML = `
-  <div class="card">
-    <h2>${first ? '👋 Bienvenue ! Connecte ton compte' : '⚙️ Réglages'}</h2>
-    <label>Ton pseudo RetroAchievements</label>
-    <input id="sUser" value="${esc(cfg.user)}" autocomplete="username" autocapitalize="off">
-    <label>Ta Web API Key</label>
-    <input id="sKey" value="${esc(cfg.key)}" type="password" autocomplete="off">
-    <p class="mut">Où la trouver : <a href="${SITE}/settings" target="_blank" rel="noopener">retroachievements.org → Settings</a>, section <b>Keys</b>.<br>
-    🔒 Elle reste uniquement sur cet appareil.</p>
-    <button class="btn" id="sSave">Enregistrer</button>
-    ${first ? '' : '<button class="btn sec" id="sOut">Se déconnecter</button>'}
+  <div class="card" style="--c:var(--violet)">
+    <h2>${first ? '👋 Connecte ton compte' : '⚙️ Réglages'}</h2>
+    <form id="sForm" autocomplete="on">
+      <label for="sUser">Ton pseudo RetroAchievements</label>
+      <input id="sUser" name="username" value="${esc(cfg.user)}" autocomplete="username" autocapitalize="off" autocorrect="off">
+      <label for="sKey">Ta Web API Key</label>
+      <input id="sKey" name="password" value="${esc(cfg.key)}" type="password" autocomplete="current-password">
+      <button class="btn" type="submit">Enregistrer</button>
+      ${first ? '' : '<button class="btn sec" type="button" id="sOut">Se déconnecter</button>'}
+    </form>
+    <p class="mut">Où trouver la clé : <a href="${SITE}/settings" target="_blank" rel="noopener">retroachievements.org → Settings</a>, section <b>Keys</b>.<br>
+    🔒 Tu ne la saisis qu'une fois : elle reste mémorisée sur cet appareil (et ton trousseau peut la proposer automatiquement).</p>
     <div id="sMsg"></div>
   </div>`;
-  $('#sSave').onclick = async () => {
+  $('#sForm').onsubmit = async e => {
+    e.preventDefault();
     const user = $('#sUser').value.trim(), key = $('#sKey').value.trim();
     if (!user || !key) { $('#sMsg').innerHTML = '<p class="err">Remplis les deux champs.</p>'; return; }
     cfg = { user, key };
@@ -147,55 +220,95 @@ function renderSettings(first) {
     try {
       const p = await ra('API_GetUserProfile', { u: user });
       cfg.user = p.User || user; store.set('ra_cfg', cfg);
-      tab = 'profil';
-      document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('on', x.dataset.tab === 'profil'));
-      render();
-    } catch (e) { $('#sMsg').innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
+      setTab('profil'); render();
+    } catch (err) { $('#sMsg').innerHTML = `<p class="err">⚠️ ${esc(err.message)}</p>`; }
   };
   const out = $('#sOut');
-  if (out) out.onclick = () => { cfg = { user: '', key: '' }; store.set('ra_cfg', cfg); render(); };
+  if (out) out.onclick = () => { if (confirm('Se déconnecter ?')) { cfg = { user: '', key: '' }; store.set('ra_cfg', cfg); render(); } };
 }
 
-// --- profil (le mien ou celui d'un autre) ---
+// --- profil complet (le mien ou celui d'un autre) ---
+const AWARD = { mastered: '👑 Maîtrisé', completed: '✅ Complété', 'beaten-hardcore': '⭐ Battu', 'beaten-softcore': '⭐ Battu (casual)' };
 async function renderProfile(user, mine, target = $('#main'), backFn) {
   target.innerHTML = loading();
   try {
-    const [p, recent, prog] = await Promise.all([
+    const [p, s, recent, games] = await Promise.all([
       ra('API_GetUserProfile', { u: user }),
+      ra('API_GetUserSummary', { u: user, g: 3, a: 0 }).catch(() => ({})),
       ra('API_GetUserRecentAchievements', { u: user, m: 60 * 24 * 30 }).catch(() => []),
-      ra('API_GetUserCompletionProgress', { u: user, c: 500 }).catch(() => ({ Results: [] }))
+      allProgress(user).catch(() => [])
     ]);
-    const games = prog.Results || [];
+    const now = Date.now(), day = 864e5;
+    const hcAch = games.reduce((t, g) => t + (g.NumAwardedHardcore || 0), 0);
+    const scAch = games.reduce((t, g) => t + Math.max(0, (g.NumAwarded || 0) - (g.NumAwardedHardcore || 0)), 0);
+    const beaten = games.filter(g => AWARD[g.HighestAwardKind]);
+    const retail = beaten.filter(g => !String(g.Title).includes('~')).length;
     const mastered = games.filter(g => g.HighestAwardKind === 'mastered').length;
-    const beaten = games.filter(g => g.HighestAwardKind && g.HighestAwardKind.startsWith('beaten')).length;
+    const withAch = games.filter(g => g.MaxPossible > 0);
+    const avgComp = withAch.length ? withAch.reduce((t, g) => t + Math.max(g.NumAwarded, g.NumAwardedHardcore) / g.MaxPossible, 0) / withAch.length * 100 : 0;
+    const ptsSince = days => recent.filter(a => a.HardcoreMode && parseD(a.Date) > now - days * day).reduce((t, a) => t + (a.Points || 0), 0);
+    const since = parseD(p.MemberSince);
+    const weeks = since ? Math.max(1, (now - since) / (7 * day)) : 0;
+    const ratio = p.TotalPoints ? (p.TotalTruePoints / p.TotalPoints).toFixed(2) : '—';
+    const pic = p.UserPic || s.UserPic || `/UserPic/${p.User}.png`;
+    const last = (s.RecentlyPlayed || [])[0];
+    const rp = s.RichPresenceMsg || p.RichPresenceMsg;
+    const rank = s.Rank ? `#${num(s.Rank)} sur ${num(s.TotalRanked)}` : null;
+
     target.innerHTML = `
     ${backFn ? '<button class="back" id="pBack">← Retour</button>' : ''}
-    <div class="card">
+    <div class="card" style="--c:var(--pink)">
       <div class="prof">
-        <img src="${MEDIA}/UserPic/${encodeURIComponent(p.User)}.png" alt="">
+        ${img(pic, 'avatar')}
         <div><h2>${esc(p.User)}</h2>
-        <div class="mut">${p.Motto ? '« ' + esc(p.Motto) + ' »<br>' : ''}Membre depuis le ${date(p.MemberSince)}</div></div>
+        ${p.Motto ? `<div class="mut">« ${esc(p.Motto)} »</div>` : ''}
+        <div class="mut">Membre depuis le ${fDate(p.MemberSince)}</div></div>
       </div>
-      ${p.RichPresenceMsg ? `<p class="mut">🎮 ${esc(p.RichPresenceMsg)}</p>` : ''}
-      <div class="grid" style="margin-top:10px">
-        <div class="kpi"><span>Points hardcore</span><b>${num(p.TotalPoints)}</b></div>
-        <div class="kpi"><span>Points softcore</span><b>${num(p.TotalSoftcorePoints)}</b></div>
-        <div class="kpi"><span>Jeux commencés</span><b>${num(prog.Total ?? games.length)}</b></div>
-        <div class="kpi"><span>Maîtrisés / battus</span><b>${mastered} / ${beaten}</b></div>
+      ${last ? `<div class="now click" data-game="${last.GameID}">
+        ${img(last.ImageIcon)}
+        <div><b>${esc(last.Title)}</b><br>${chip(last.ConsoleName)} <span class="mut">· ${fDateTime(last.LastPlayed)}</span>
+        ${rp ? `<div class="rp">🎮 ${esc(rp)}</div>` : ''}</div></div>` : ''}
+      <div class="grid" style="margin-top:12px">
+        <div class="kpi" style="--c:var(--gold)"><span>Points</span><b>${num(p.TotalPoints)}</b><em>(${num(p.TotalTruePoints)} RetroPoints)</em></div>
+        <div class="kpi" style="--c:var(--pink)"><span>Classement</span><b>${rank ? '#' + num(s.Rank) : '—'}</b><em>${s.TotalRanked ? 'sur ' + num(s.TotalRanked) : ''}</em></div>
+        <div class="kpi" style="--c:var(--cyan)"><span>Succès débloqués</span><b>${num(hcAch)}</b></div>
+        <div class="kpi" style="--c:var(--green)"><span>Jeux battus</span><b>${beaten.length}</b><em>${mastered} maîtrisé${mastered > 1 ? 's' : ''}</em></div>
+        <div class="kpi" style="--c:var(--orange)"><span>30 derniers jours</span><b>${num(ptsSince(30))} pts</b></div>
+        <div class="kpi" style="--c:var(--violet)"><span>Complétion moyenne</span><b>${avgComp.toFixed(1)} %</b></div>
       </div>
-      ${mine ? `<a class="btn sec" style="display:inline-block;text-decoration:none" href="${SITE}/settings" target="_blank" rel="noopener">✏️ Modifier mon profil (sur le site)</a>` : `<a class="btn sec" style="display:inline-block;text-decoration:none" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">Voir sur le site</a>`}
+      ${mine ? `<a class="btn sec" href="${SITE}/settings" target="_blank" rel="noopener">✏️ Modifier mon profil (sur le site)</a>`
+             : `<a class="btn sec" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">Voir sur le site ↗</a>`}
     </div>
-    <div class="card">
+    <div class="card" style="--c:var(--cyan)">
+      <h2>Statistiques du joueur</h2>
+      <ul class="stats">
+        <li><span>Points</span><i></i><b>${num(p.TotalPoints)} <span style="color:var(--txt)">(${num(p.TotalTruePoints)})</span></b></li>
+        <li><span>Classement du site</span><i></i><b class="g">${rank || '—'}</b></li>
+        <li><span>Succès débloqués</span><i></i><b>${num(hcAch)}</b></li>
+        <li><span>RetroRatio</span><i></i><b>${ratio}</b></li>
+        <li><span>Points (casual)</span><i></i><b>${num(p.TotalSoftcorePoints)}</b></li>
+        <li><span>Classement casual</span><i></i>${(p.TotalSoftcorePoints || 0) < 250 ? '<b class="m">250 points requis</b>' : '<b>—</b>'}</li>
+        <li><span>Succès débloqués (casual)</span><i></i><b>${num(scAch)}</b></li>
+        <li><span>Jeux commencés battus</span><i></i><b>${games.length ? (beaten.length / games.length * 100).toFixed(2) : 0} %</b></li>
+        <li><span>Points des 7 derniers jours</span><i></i><b>${num(ptsSince(7))}</b></li>
+        <li><span>Points des 30 derniers jours</span><i></i><b>${num(ptsSince(30))}</b></li>
+        <li><span>Moyenne de points / semaine</span><i></i><b>${weeks ? num(Math.round(p.TotalPoints / weeks)) : '—'}</b></li>
+        <li><span>Total de jeux battus</span><i></i><b>${beaten.length} <span style="color:var(--gold)">(${retail} retail)</span></b></li>
+        <li><span>Complétion moyenne</span><i></i><b>${avgComp.toFixed(2)} %</b></li>
+        <li><span>Jeux commencés</span><i></i><b>${num(games.length)}</b></li>
+      </ul>
+    </div>
+    <div class="card" style="--c:var(--gold)">
       <h2>Succès récents (30 jours)</h2>
-      ${recent.length ? recent.slice(0, 25).map(a => `
+      ${recent.length ? recent.slice(0, 30).map(a => `
         <div class="item click" data-game="${a.GameID}">
-          <img src="${MEDIA}${esc(a.BadgeURL)}" alt="" loading="lazy">
+          ${img(a.BadgeURL)}
           <div class="t"><b>${esc(a.Title)}${a.HardcoreMode ? '<span class="tag hc">HC</span>' : ''}</b>
-          <small>${esc(a.GameTitle)} · ${date(a.Date)}</small></div>
+          <small>${esc(a.GameTitle)}</small><small>🕒 ${fDateTime(a.Date)}</small></div>
           <span class="pts">${a.Points} pts</span>
         </div>`).join('') : '<p class="mut">Aucun succès ces 30 derniers jours.</p>'}
     </div>
-    ${!mine && games.length ? `<div class="card"><h2>Ses jeux</h2><div id="pGames"></div></div>` : ''}`;
+    ${!mine && games.length ? `<div class="card" style="--c:var(--green)"><h2>Ses jeux</h2><div id="pGames"></div></div>` : ''}`;
     if (backFn) $('#pBack').onclick = backFn;
     const reopen = () => renderProfile(user, mine, target, backFn);
     target.querySelectorAll('[data-game]').forEach(el => el.onclick = () => renderGame(el.dataset.game, user, reopen));
@@ -206,95 +319,232 @@ async function renderProfile(user, mine, target = $('#main'), backFn) {
 // --- liste de jeux avec progression ---
 function gameList(games, el, onOpen) {
   el.innerHTML = games.map(g => {
-    const max = g.MaxPossible || 0, s = g.NumAwarded || 0, h = g.NumAwardedHardcore || 0;
-    const award = { mastered: '👑 Maîtrisé', completed: '✅ Complété', 'beaten-hardcore': '⭐ Battu HC', 'beaten-softcore': '⭐ Battu' }[g.HighestAwardKind] || '';
+    const max = g.MaxPossible || 0, got = Math.max(g.NumAwarded || 0, g.NumAwardedHardcore || 0);
     return `<div class="item click" data-id="${g.GameID}">
-      <img src="${MEDIA}${esc(g.ImageIcon)}" alt="" loading="lazy">
+      ${img(g.ImageIcon)}
       <div class="t"><b>${esc(g.Title)}</b>
-        <small>${esc(g.ConsoleName)} · ${Math.max(s, h)}/${max} ${award ? '· ' + award : ''}</small>
-        <div class="bar"><i class="${h >= s ? 'hc' : ''}" style="width:${pct(Math.max(s, h), max)}%"></i></div>
+        <small>${chip(g.ConsoleName)} ${got}/${max} ${AWARD[g.HighestAwardKind] ? '· ' + AWARD[g.HighestAwardKind] : ''}</small>
+        <div class="bar"><i class="${g.NumAwardedHardcore >= g.NumAwarded ? 'hc' : ''}" style="width:${pct(got, max)}%"></i></div>
       </div>
-      <span class="pts">${pct(Math.max(s, h), max)}%</span>
+      <span class="pts">${pct(got, max)}%</span>
     </div>`;
   }).join('') || '<p class="mut">Aucun jeu.</p>';
   el.querySelectorAll('[data-id]').forEach(x => x.onclick = () => onOpen(x.dataset.id));
 }
 
-let gamesFilter = 'tous', gamesSort = 'recent';
+let gamesFilter = 'tous', gamesSort = 'recent', gamesText = '';
 async function renderGames(user) {
   const m = $('#main');
   m.innerHTML = loading();
   try {
-    const prog = await ra('API_GetUserCompletionProgress', { u: user, c: 500 });
-    let games = prog.Results || [];
+    const games = await allProgress(user);
+    const pc = g => pct(Math.max(g.NumAwarded, g.NumAwardedHardcore), g.MaxPossible);
+    m.innerHTML = `<div class="card" style="--c:var(--green)">
+      <h2>Mes jeux (${games.length})</h2>
+      <div class="filters" id="gF">
+        ${[['tous', 'Tous'], ['cours', 'En cours'], ['finis', '100 %'], ['battus', 'Battus']].map(([k, l]) => `<button data-f="${k}" class="${gamesFilter === k ? 'on' : ''}">${l}</button>`).join('')}
+      </div>
+      <input id="gT" placeholder="🔎 Filtrer par nom ou console" value="${esc(gamesText)}">
+      <select id="gS" style="margin-top:8px"><option value="recent">Joués récemment</option><option value="pct">Plus avancés</option><option value="nom">Ordre alphabétique</option></select>
+      <div id="gL" style="margin-top:8px"></div></div>`;
     const draw = () => {
-      const pc = g => pct(Math.max(g.NumAwarded, g.NumAwardedHardcore), g.MaxPossible);
-      let list = games.filter(g => gamesFilter === 'tous' ? true : gamesFilter === 'cours' ? pc(g) < 100 : pc(g) === 100);
+      const t = gamesText.toLowerCase();
+      let list = games.filter(g => gamesFilter === 'tous' ? true : gamesFilter === 'cours' ? pc(g) < 100 : gamesFilter === 'finis' ? pc(g) === 100 : !!AWARD[g.HighestAwardKind])
+        .filter(g => !t || (g.Title + ' ' + g.ConsoleName).toLowerCase().includes(t));
       if (gamesSort === 'pct') list = [...list].sort((a, b) => pc(b) - pc(a));
       if (gamesSort === 'nom') list = [...list].sort((a, b) => a.Title.localeCompare(b.Title));
-      m.innerHTML = `<div class="card">
-        <h2>Mes jeux (${games.length})</h2>
-        <div class="filters" id="gF">
-          ${[['tous', 'Tous'], ['cours', 'En cours'], ['finis', '100 %']].map(([k, l]) => `<button data-f="${k}" class="${gamesFilter === k ? 'on' : ''}">${l}</button>`).join('')}
-        </div>
-        <select id="gS"><option value="recent">Joués récemment</option><option value="pct">Plus avancés</option><option value="nom">Ordre alphabétique</option></select>
-        <div id="gL" style="margin-top:8px"></div></div>`;
-      $('#gS').value = gamesSort;
-      $('#gS').onchange = e => { gamesSort = e.target.value; draw(); };
-      $('#gF').onclick = e => { const b = e.target.closest('button'); if (b) { gamesFilter = b.dataset.f; draw(); } };
+      $('#gF').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.f === gamesFilter));
       gameList(list, $('#gL'), id => renderGame(id, user, () => renderGames(user)));
     };
+    $('#gS').value = gamesSort;
+    $('#gS').onchange = e => { gamesSort = e.target.value; draw(); };
+    $('#gT').oninput = e => { gamesText = e.target.value; draw(); };
+    $('#gF').onclick = e => { const b = e.target.closest('button'); if (b) { gamesFilter = b.dataset.f; draw(); } };
     draw();
   } catch (e) { m.innerHTML = errBox(e); }
 }
 
-// --- détail d'un jeu : tous les succès + ce qui est débloqué ---
-let achFilter = 'tous';
+// --- émulateurs recommandés par console (ID RetroAchievements) ---
+const EMU = {
+  1: ['RetroArch (Genesis Plus GX)', 'BizHawk'], 2: ['RetroArch (Mupen64Plus-Next)', 'RAProject64', 'BizHawk'],
+  3: ['RetroArch (Snes9x)', 'RASnes9x', 'BizHawk'], 4: ['RetroArch (Gambatte / SameBoy)', 'BizHawk'],
+  5: ['RetroArch (mGBA)', 'BizHawk'], 6: ['RetroArch (Gambatte / SameBoy)', 'BizHawk'],
+  7: ['RetroArch (Mesen / FCEUmm)', 'RANes', 'BizHawk'], 8: ['RetroArch (Beetle PCE)', 'BizHawk'],
+  9: ['RetroArch (Genesis Plus GX)', 'BizHawk'], 10: ['RetroArch (PicoDrive)', 'BizHawk'],
+  11: ['RetroArch (Genesis Plus GX)', 'BizHawk'], 12: ['DuckStation', 'RetroArch (Beetle PSX / SwanStation)'],
+  13: ['RetroArch (Handy / Beetle Lynx)', 'BizHawk'], 14: ['RetroArch (Beetle NeoPop)', 'BizHawk'],
+  15: ['RetroArch (Genesis Plus GX)', 'BizHawk'], 16: ['Dolphin'], 17: ['RetroArch (Virtual Jaguar)', 'BizHawk'],
+  18: ['RetroArch (melonDS DS)', 'melonDS', 'BizHawk'], 21: ['PCSX2'], 25: ['RetroArch (Stella)', 'BizHawk'],
+  27: ['RetroArch (FinalBurn Neo)'], 28: ['RetroArch (Beetle VB)', 'BizHawk'], 29: ['RetroArch (blueMSX)'],
+  33: ['RetroArch (Genesis Plus GX)', 'BizHawk'], 39: ['RetroArch (Beetle Saturn)', 'BizHawk'], 41: ['PPSSPP'],
+  43: ['RetroArch (Opera)'], 44: ['RetroArch (Gearcoleco / blueMSX)', 'BizHawk'], 45: ['RetroArch (FreeIntv)', 'BizHawk'],
+  46: ['RetroArch (vecx)'], 49: ['RetroArch (Beetle PC-FX)'], 51: ['RetroArch (ProSystem)', 'BizHawk'],
+  53: ['RetroArch (Beetle Cygne)', 'BizHawk'], 56: ['RetroArch (NeoCD)'], 76: ['RetroArch (Beetle PCE)', 'BizHawk'], 78: ['RetroArch (melonDS DS)', 'melonDS']
+};
+
+// --- page d'un jeu ---
+let gameTab = 'succes', achFilter = 'tous';
 async function renderGame(gameId, user, backFn) {
   const m = $('#main');
   m.innerHTML = loading(); window.scrollTo(0, 0);
   try {
-    const g = await ra('API_GetGameInfoAndUserProgress', { g: gameId, u: user });
+    const g = await ra('API_GetGameInfoAndUserProgress', { g: gameId, u: user, a: 1 });
     const achs = Object.values(g.Achievements || {}).sort((a, b) => a.DisplayOrder - b.DisplayOrder || a.ID - b.ID);
     const got = a => a.DateEarnedHardcore || a.DateEarned;
     const done = achs.filter(got).length;
-    const totalPts = achs.reduce((s, a) => s + (a.Points || 0), 0);
-    const myPts = achs.filter(got).reduce((s, a) => s + (a.Points || 0), 0);
-    const draw = () => {
-      const list = achs.filter(a => achFilter === 'tous' ? true : achFilter === 'ok' ? got(a) : !got(a));
-      m.innerHTML = `
-      <button class="back" id="gBack">← Retour</button>
-      <div class="card">
-        <div class="prof"><img src="${MEDIA}${esc(g.ImageIcon)}" alt="">
-          <div><h2>${esc(g.Title)}</h2><div class="mut">${esc(g.ConsoleName)}${g.Released ? ' · ' + esc(g.Released) : ''}</div></div></div>
-        <div class="grid" style="margin-top:10px">
-          <div class="kpi"><span>${user === cfg.user ? 'Mes succès' : 'Succès de ' + esc(user)}</span><b>${done} / ${achs.length}</b></div>
-          <div class="kpi"><span>Points</span><b>${num(myPts)} / ${num(totalPts)}</b></div>
-          <div class="kpi"><span>Progression</span><b>${pct(done, achs.length)} %</b></div>
+    const totalPts = achs.reduce((t, a) => t + (a.Points || 0), 0);
+    const myPts = achs.filter(got).reduce((t, a) => t + (a.Points || 0), 0);
+    const players = g.NumDistinctPlayers || g.NumDistinctPlayersHardcore || 0;
+    const who = user === cfg.user ? 'Mes succès' : 'Succès de ' + esc(user);
+    gameTab = 'succes';
+
+    m.innerHTML = `
+    <button class="back" id="gBack">← Retour</button>
+    <div class="card" style="--c:var(--orange)">
+      <div class="hero">
+        ${img(g.ImageBoxArt || g.ImageIcon, 'box')}
+        <div><h2>${esc(g.Title)}</h2>${chip(g.ConsoleName)}
+          <div class="mut" style="margin-top:6px">${[g.Genre, g.Released && fDate(g.Released) || g.Released].filter(Boolean).map(esc).join(' · ')}</div>
+          ${AWARD[g.HighestAwardKind] ? `<div style="margin-top:6px">${AWARD[g.HighestAwardKind]} <span class="mut">le ${fDate(g.HighestAwardDate)}</span></div>` : ''}
         </div>
-        <div class="bar"><i class="hc" style="width:${pct(done, achs.length)}%"></i></div>
-        <a href="${SITE}/game/${g.ID || gameId}" target="_blank" rel="noopener" class="mut">Voir sur le site ↗</a>
       </div>
-      <div class="card">
-        <h2>Succès</h2>
-        <div class="filters" id="aF">
-          ${[['tous', 'Tous'], ['ok', 'Débloqués'], ['ko', 'À faire']].map(([k, l]) => `<button data-f="${k}" class="${achFilter === k ? 'on' : ''}">${l}</button>`).join('')}
-        </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="kpi" style="--c:var(--cyan)"><span>${who}</span><b>${done} / ${achs.length}</b></div>
+        <div class="kpi" style="--c:var(--gold)"><span>Points</span><b>${num(myPts)} / ${num(totalPts)}</b></div>
+        <div class="kpi" style="--c:var(--green)"><span>Progression</span><b>${pct(done, achs.length)} %</b></div>
+      </div>
+      <div class="bar"><i class="hc" style="width:${pct(done, achs.length)}%"></i></div>
+    </div>
+    <div class="filters" id="gTabs">
+      <button data-t="succes" class="on">🏆 Succès</button><button data-t="infos">🕹️ Infos & émulateur</button><button data-t="coms">💬 Commentaires</button>
+    </div>
+    <div id="gBody"></div>`;
+    $('#gBack').onclick = backFn;
+
+    const drawAch = () => {
+      const list = achs.filter(a => achFilter === 'tous' ? true : achFilter === 'ok' ? got(a) : !got(a));
+      $('#gBody').innerHTML = `<div class="card" style="--c:var(--gold)">
+        <div class="filters" id="aF">${[['tous', 'Tous'], ['ok', 'Débloqués'], ['ko', 'À faire']].map(([k, l]) => `<button data-f="${k}" class="${achFilter === k ? 'on' : ''}">${l}</button>`).join('')}</div>
         ${achs.length ? list.map(a => `
-          <div class="item ${got(a) ? '' : 'locked'}">
-            <img src="${MEDIA}/Badge/${esc(a.BadgeName)}${got(a) ? '' : '_lock'}.png" alt="" loading="lazy">
-            <div class="t"><b>${esc(a.Title)}${a.DateEarnedHardcore ? '<span class="tag hc">HC</span>' : a.DateEarned ? '<span class="tag">SC</span>' : ''}</b>
+          <div class="item click ${got(a) ? '' : 'locked'}" data-a="${a.ID}">
+            ${img(`/Badge/${a.BadgeName}${got(a) ? '' : '_lock'}.png`)}
+            <div class="t"><b>${esc(a.Title)}${a.DateEarnedHardcore ? '<span class="tag hc">HC</span>' : a.DateEarned ? '<span class="tag">SC</span>' : ''}${typeTag(a.Type)}</b>
               <small>${esc(a.Description)}</small>
-              ${got(a) ? `<small>✅ ${date(got(a))}</small>` : ''}
+              ${got(a) ? `<small>🕒 ${fDateTime(got(a))}</small>` : ''}
             </div>
             <span class="pts">${a.Points} pts</span>
           </div>`).join('') || '<p class="mut">Rien ici.</p>' : '<p class="mut">Ce jeu n\'a pas encore de succès.</p>'}
       </div>`;
-      $('#gBack').onclick = backFn;
-      $('#aF').onclick = e => { const b = e.target.closest('button'); if (b) { achFilter = b.dataset.f; draw(); } };
+      $('#aF').onclick = e => { const b = e.target.closest('button'); if (b) { achFilter = b.dataset.f; drawAch(); } };
+      $('#gBody').querySelectorAll('[data-a]').forEach(el => el.onclick = () => openAch(achs.find(a => a.ID == el.dataset.a), g, players));
     };
+
+    const drawInfos = async () => {
+      const earned = achs.map(got).filter(Boolean).map(parseD).filter(Boolean).sort((a, b) => a - b);
+      const daysPlayed = new Set(earned.map(d => d.toDateString())).size;
+      const pt = findPlaytime(g);
+      const emus = EMU[g.ConsoleID];
+      $('#gBody').innerHTML = `
+      <div class="card" style="--c:var(--cyan)">
+        <h2>Infos</h2>
+        <ul class="stats">
+          ${g.Developer ? `<li><span>Développeur</span><i></i><b>${esc(g.Developer)}</b></li>` : ''}
+          ${g.Publisher ? `<li><span>Éditeur</span><i></i><b>${esc(g.Publisher)}</b></li>` : ''}
+          ${g.Genre ? `<li><span>Genre</span><i></i><b>${esc(g.Genre)}</b></li>` : ''}
+          ${g.Released ? `<li><span>Sortie</span><i></i><b>${esc(fDate(g.Released) || g.Released)}</b></li>` : ''}
+          <li><span>Joueurs</span><i></i><b>${num(players)}</b></li>
+          ${pt ? `<li><span>⏱️ Temps de jeu</span><i></i><b class="g">${pt}</b></li>` : ''}
+          ${earned.length ? `<li><span>Premier succès</span><i></i><b>${fDateTime(earned[0].toISOString())}</b></li>
+          <li><span>Dernier succès</span><i></i><b>${fDateTime(earned[earned.length - 1].toISOString())}</b></li>
+          <li><span>Jours avec un succès</span><i></i><b>${daysPlayed}</b></li>` : ''}
+        </ul>
+        <div class="shots">${[g.ImageTitle, g.ImageIngame].filter(Boolean).map(p => img(p)).join('')}</div>
+      </div>
+      <div class="card" style="--c:var(--violet)">
+        <h2>Émulateurs compatibles</h2>
+        ${emus ? `<div class="emu">${emus.map(e => `<span>${esc(e)}</span>`).join('')}</div>` : '<p class="mut">Pas d\'info pour cette console.</p>'}
+        <p class="mut">📱 Sur téléphone : <b>RetroArch</b> (iPhone et Android) gère la plupart des consoles avec RetroAchievements.</p>
+        <a href="https://docs.retroachievements.org/general/emulator-support-and-issues.html" target="_blank" rel="noopener" class="mut">Liste officielle des émulateurs ↗</a>
+      </div>
+      <div class="card" style="--c:var(--green)">
+        <h2>ROM compatibles (hash)</h2>
+        <p class="mut">Ton fichier doit correspondre à l'une de ces versions pour que les succès fonctionnent.</p>
+        <div id="hashes" class="mut">⏳ Chargement…</div>
+        <a href="${SITE}/game/${g.ID}/hashes" target="_blank" rel="noopener" class="mut">Voir sur le site ↗</a>
+      </div>
+      <div class="card" style="--c:var(--pink)">
+        <h2>Subsets</h2>
+        <div id="subsets" class="mut">⏳ Recherche…</div>
+      </div>`;
+      ra('API_GetGameHashes', { i: g.ID }).then(r => {
+        const hs = r.Results || [];
+        $('#hashes').innerHTML = hs.length ? hs.map(h => `<div class="hash"><b style="color:var(--txt)">${esc(h.Name || 'Sans nom')}</b>
+          ${(h.Labels || []).map(l => `<span class="tag ${l === 'nointro' || l === 'redump' ? 'win' : 'pro'}">${esc(l)}</span>`).join('')}
+          ${h.PatchUrl ? ` · <a href="${esc(h.PatchUrl)}" target="_blank" rel="noopener">patch</a>` : ''}<br><code>MD5 ${esc(h.MD5)}</code></div>`).join('') : 'Aucune ROM listée.';
+      }).catch(e => { $('#hashes').innerHTML = `<span class="err">${esc(e.message)}</span>`; });
+      const base = String(g.Title).replace(/\s*\[Subset[^\]]*\]\s*$/i, '').trim().toLowerCase();
+      ra('API_GetGameList', { i: g.ConsoleID, f: 1 }).then(list => {
+        const subs = list.filter(x => x.ID != g.ID && x.Title.toLowerCase().startsWith(base) && (/\[Subset/i.test(x.Title) || x.Title.toLowerCase() === base));
+        const el = $('#subsets');
+        el.innerHTML = subs.length ? subs.map(x => `<div class="item click" data-id="${x.ID}">${img(x.ImageIcon)}
+          <div class="t"><b>${esc(x.Title)}</b><small>${x.NumAchievements} succès · ${num(x.Points)} pts</small></div></div>`).join('') : 'Aucun subset pour ce jeu.';
+        el.querySelectorAll('[data-id]').forEach(x => x.onclick = () => renderGame(x.dataset.id, user, () => renderGame(gameId, user, backFn)));
+      }).catch(() => { $('#subsets').textContent = 'Impossible de charger les subsets.'; });
+    };
+
+    const drawComs = () => {
+      $('#gBody').innerHTML = `<div class="card" style="--c:var(--pink)"><h2>Commentaires du jeu</h2><div id="coms">⏳ Chargement…</div>
+        <a href="${SITE}/game/${g.ID}" target="_blank" rel="noopener" class="mut">Écrire un commentaire sur le site ↗</a></div>`;
+      loadComments(g.ID, 1, $('#coms'));
+    };
+
+    const draw = () => { $('#gTabs').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === gameTab)); ({ succes: drawAch, infos: drawInfos, coms: drawComs })[gameTab](); };
+    $('#gTabs').onclick = e => { const b = e.target.closest('button'); if (b) { gameTab = b.dataset.t; draw(); } };
     draw();
   } catch (e) { m.innerHTML = errBox(e); }
+}
+
+const typeTag = t => ({ progression: '<span class="tag pro">Progression</span>', win_condition: '<span class="tag win">Victoire</span>', missable: '<span class="tag mis">Ratable</span>' })[t] || '';
+
+// temps de jeu : affiché seulement si RetroAchievements le fournit
+function findPlaytime(o) {
+  for (const [k, v] of Object.entries(o || {})) {
+    if (/play.?time|time.?played/i.test(k) && Number(v) > 0) {
+      const sec = /minute/i.test(k) ? v * 60 : Number(v);
+      const h = Math.floor(sec / 3600), mn = Math.round(sec % 3600 / 60);
+      return h ? `${h} h ${String(mn).padStart(2, '0')}` : `${mn} min`;
+    }
+  }
+  return null;
+}
+
+async function loadComments(id, type, el) {
+  try {
+    const r = await ra('API_GetComments', { i: id, t: type, c: 100, sort: '-submitted' });
+    const list = (r.Results || []).filter(c => c.User !== 'Server');
+    el.innerHTML = list.length ? list.map(c => `<div class="com"><b>${esc(c.User)}</b><small>${fDateTime(c.Submitted)}</small><p>${esc(c.CommentText)}</p></div>`).join('')
+      : '<p class="mut">Aucun commentaire pour l\'instant.</p>';
+  } catch (e) { el.innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
+}
+
+// --- détail d'un succès ---
+function openAch(a, g, players) {
+  const got = a.DateEarnedHardcore || a.DateEarned;
+  const rare = players ? (a.NumAwardedHardcore || a.NumAwarded || 0) / players * 100 : null;
+  sheet.open(`
+    <div class="big ${got ? '' : 'locked'}">${img(`/Badge/${a.BadgeName}.png`)}
+      <div><b style="font-size:1.1rem">${esc(a.Title)}</b><div class="pts">${a.Points} pts <span class="mut">(${num(a.TrueRatio)} RetroPoints)</span></div>${typeTag(a.Type)}</div></div>
+    <p>${esc(a.Description)}</p>
+    <ul class="stats">
+      <li><span>Débloqué (hardcore)</span><i></i><b class="${a.DateEarnedHardcore ? 'g' : 'm'}">${a.DateEarnedHardcore ? fDateTime(a.DateEarnedHardcore) : 'Non'}</b></li>
+      ${a.DateEarned && !a.DateEarnedHardcore ? `<li><span>Débloqué (casual)</span><i></i><b>${fDateTime(a.DateEarned)}</b></li>` : ''}
+      <li><span>Obtenu par</span><i></i><b>${num(a.NumAwardedHardcore || a.NumAwarded)} joueurs${rare !== null ? ` (${rare.toFixed(1)} %)` : ''}</b></li>
+      ${a.Author ? `<li><span>Créé par</span><i></i><b>${esc(a.Author)}</b></li>` : ''}
+    </ul>
+    <h3 style="margin:16px 0 4px">💬 Commentaires</h3>
+    <div id="aComs" class="mut">⏳ Chargement…</div>
+    <a href="${SITE}/achievement/${a.ID}" target="_blank" rel="noopener" class="mut">Voir sur le site ↗</a>`);
+  loadComments(a.ID, 2, $('#aComs'));
 }
 
 // --- recherche d'un jeu par console ---
@@ -304,30 +554,31 @@ async function renderSearch() {
   m.innerHTML = loading();
   try {
     const consoles = (await ra('API_GetConsoleIDs', { a: 1, g: 1 })).sort((a, b) => a.Name.localeCompare(b.Name));
-    m.innerHTML = `<div class="card">
+    m.innerHTML = `<div class="card" style="--c:var(--cyan)">
       <h2>Chercher un jeu</h2>
       <label>Console</label>
       <select id="rC"><option value="">— Choisis une console —</option>${consoles.map(c => `<option value="${c.ID}">${esc(c.Name)}</option>`).join('')}</select>
       <label>Nom du jeu</label>
-      <input id="rT" placeholder="ex : Zelda" value="${esc(search.text)}" autocomplete="off">
+      <input id="rT" placeholder="ex : Pokémon" value="${esc(search.text)}" autocomplete="off">
       <div id="rL" style="margin-top:8px"></div></div>`;
     $('#rC').value = search.console;
     let list = [];
+    const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
     const draw = () => {
       const el = $('#rL');
       if (!search.console) { el.innerHTML = '<p class="mut">Choisis une console pour commencer.</p>'; return; }
-      const t = search.text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-      const res = list.filter(g => g.Title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').includes(t)).slice(0, 100);
+      const t = norm(search.text);
+      const res = list.filter(g => norm(g.Title).includes(t)).slice(0, 100);
       el.innerHTML = res.map(g => `<div class="item click" data-id="${g.ID}">
-        <img src="${MEDIA}${esc(g.ImageIcon)}" alt="" loading="lazy">
-        <div class="t"><b>${esc(g.Title)}</b><small>${g.NumAchievements} succès · ${num(g.Points)} pts</small></div></div>`).join('')
+        ${img(g.ImageIcon)}
+        <div class="t"><b>${esc(g.Title)}</b><small>🏆 ${g.NumAchievements} succès · <span style="color:var(--gold)">${num(g.Points)} pts</span></small></div></div>`).join('')
         || '<p class="mut">Aucun jeu trouvé.</p>';
       if (res.length === 100) el.innerHTML += '<p class="mut">100 premiers résultats — précise ta recherche.</p>';
       el.querySelectorAll('[data-id]').forEach(x => x.onclick = () => renderGame(x.dataset.id, cfg.user, renderSearch));
     };
     const load = async () => {
       if (!search.console) { list = []; return draw(); }
-      $('#rL').innerHTML = '<p class="mut">Chargement des jeux…</p>';
+      $('#rL').innerHTML = '<p class="mut">⏳ Chargement des jeux…</p>';
       try { list = await ra('API_GetGameList', { i: search.console, f: 1 }); draw(); }
       catch (e) { $('#rL').innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
     };
@@ -341,15 +592,12 @@ async function renderSearch() {
 let lastPlayer = '';
 function renderPlayerSearch() {
   const m = $('#main');
-  m.innerHTML = `<div class="card">
+  m.innerHTML = `<div class="card" style="--c:var(--pink)">
     <h2>Chercher un joueur</h2>
     <label>Pseudo exact</label>
-    <input id="pU" value="${esc(lastPlayer)}" autocapitalize="off" autocomplete="off">
+    <input id="pU" value="${esc(lastPlayer)}" autocapitalize="off" autocomplete="off" autocorrect="off">
     <button class="btn" id="pGo">Rechercher</button></div><div id="pRes"></div>`;
-  const go = () => {
-    lastPlayer = $('#pU').value.trim(); if (!lastPlayer) return;
-    renderProfile(lastPlayer, false, $('#pRes'));
-  };
+  const go = () => { lastPlayer = $('#pU').value.trim(); if (lastPlayer) renderProfile(lastPlayer, false, $('#pRes')); };
   $('#pGo').onclick = go;
   $('#pU').onkeydown = e => { if (e.key === 'Enter') go(); };
   if (lastPlayer) go();
