@@ -232,11 +232,12 @@ const AWARD = { mastered: '👑 Maîtrisé', completed: '✅ Complété', 'beate
 async function renderProfile(user, mine, target = $('#main'), backFn) {
   target.innerHTML = loading();
   try {
-    const [p, s, recent, games] = await Promise.all([
+    const [p, s, recent, games, serverHist] = await Promise.all([
       ra('API_GetUserProfile', { u: user }),
       ra('API_GetUserSummary', { u: user, g: 3, a: 0 }).catch(() => ({})),
       ra('API_GetUserRecentAchievements', { u: user, m: 60 * 24 * 30 }).catch(() => []),
-      allProgress(user).catch(() => [])
+      allProgress(user).catch(() => []),
+      fetch('data/rank-history.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({}))
     ]);
     const now = Date.now(), day = 864e5;
     const hcAch = games.reduce((t, g) => t + (g.NumAwardedHardcore || 0), 0);
@@ -280,7 +281,7 @@ async function renderProfile(user, mine, target = $('#main'), backFn) {
                 <a class="btn sec" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">Mon profil sur le site ↗</a>`
              : `<a class="btn sec" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">✍️ Voir / commenter sur le site ↗</a>`}
     </div>
-    ${rankCard(user, s.Rank, p.TotalPoints)}
+    ${rankCard(user, s.Rank, p.TotalPoints, serverHist)}
     <div class="card" style="--c:var(--cyan)">
       <h2>Statistiques du joueur</h2>
       <ul class="stats">
@@ -589,9 +590,13 @@ async function openLb(l, me, user) {
 }
 
 // --- progression au classement : une photo du rang par jour, gardée sur l'appareil ---
-function trackRank(user, rank, points) {
+function trackRank(user, rank, points, server = {}) {
   const k = 'ra_rank_' + String(user).toLowerCase();
-  const h = store.get(k, []);
+  let h = store.get(k, []);
+  // fusion avec le relevé automatique quotidien (GitHub)
+  const seen = new Set(h.map(x => x.d));
+  for (const x of server[String(user).toLowerCase()] || []) if (!seen.has(x.d)) h.push({ d: x.d, r: x.r, p: x.p });
+  h.sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
   if (!rank) return h;
   const today = new Date().toISOString().slice(0, 10);
   const last = h[h.length - 1];
@@ -610,8 +615,8 @@ function rankDelta(h, days) {
   if (ref === now) return null;
   return { places: ref.r - now.r, pts: now.p - ref.p, partial, since: ref.d };
 }
-function rankCard(user, rank, points) {
-  const h = trackRank(user, rank, points);
+function rankCard(user, rank, points, server) {
+  const h = trackRank(user, rank, points, server);
   if (!rank) return '';
   const fmt = d => {
     if (!d) return '<b style="color:var(--mut)">—</b><em>pas encore de recul</em>';
@@ -641,7 +646,7 @@ function rankCard(user, rank, points) {
       <div class="kpi" style="--c:var(--gold)"><span>Rang actuel</span><b>#${num(rank)}</b></div>
     </div>
     ${spark}
-    <p class="mut">Le site ne garde pas l'historique du classement : l'appli note ton rang à chaque ouverture (sur cet appareil, depuis le ${fDate(first.d)}). Plus tu l'ouvres, plus les stats sont précises.</p>
+    <p class="mut">Historique depuis le ${fDate(first.d)} : ton rang est relevé automatiquement chaque jour, et aussi à chaque ouverture de l'appli.</p>
   </div>`;
 }
 

@@ -1,0 +1,31 @@
+name: Relevé du classement
+
+on:
+  schedule:
+    - cron: '17 21 * * *'   # tous les jours vers 22h-23h (heure de Paris)
+  workflow_dispatch:         # bouton "Run workflow" pour lancer à la main
+
+permissions:
+  contents: write
+
+concurrency: releve-rang
+
+jobs:
+  releve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Relever le rang
+        env:
+          RA_USER: ${{ secrets.RA_USER }}
+          RA_API_KEY: ${{ secrets.RA_API_KEY }}
+        run: node .github/scripts/releve-rang.mjs
+      - name: Enregistrer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/rank-history.json
+          git diff --cached --quiet || (git commit -m "Relevé du classement $(date -u +%F)" && git push)
