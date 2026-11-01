@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compta Aquatic Shape</title>
+<style>
+:root{--bg:#f4f8fb;--card:#fff;--txt:#14232e;--mut:#5d7180;--acc:#0a7ea4;--acc2:#e0f2f8;--ok:#1f8a4c;--warn:#c27c0e;--bad:#c0392b;--line:#dde6ec}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1820;--card:#16232d;--txt:#e6eef3;--mut:#93a7b5;--acc:#35b6dc;--acc2:#163746;--line:#24343f}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+header{background:var(--acc);color:#fff;padding:14px 16px}
+header h1{margin:0;font-size:1.15rem}
+header small{opacity:.85}
+nav{display:flex;gap:4px;padding:8px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2;overflow-x:auto}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 10px;border-radius:8px;font-size:.95rem;white-space:nowrap;cursor:pointer}
+nav button.on{background:var(--acc2);color:var(--acc);font-weight:600}
+main{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.card h2{font-size:1rem;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--acc2);border-radius:10px;padding:10px}
+.kpi b{display:block;font-size:1.3rem;margin-top:2px}
+.kpi span{font-size:.8rem;color:var(--mut)}
+label{display:block;font-size:.85rem;color:var(--mut);margin-top:8px}
+input,select{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--txt);font-size:1rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:1rem;cursor:pointer;margin-top:12px}
+.btn.sec{background:var(--acc2);color:var(--acc)}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+td,th{padding:7px 4px;border-bottom:1px solid var(--line);text-align:left}
+td.n,th.n{text-align:right;white-space:nowrap}
+.del{background:none;border:0;color:var(--bad);cursor:pointer;font-size:1rem}
+.mut{color:var(--mut);font-size:.85rem}
+.hide{display:none}
+.tag{display:inline-block;padding:1px 7px;border-radius:10px;background:var(--acc2);color:var(--acc);font-size:.75rem}
+.alert{padding:10px;border-radius:8px;margin-top:8px;font-size:.9rem}
+.alert.warn{background:#fff4e0;color:#7a4e06}.alert.bad{background:#fde8e6;color:#8a2318}
+@media (prefers-color-scheme:dark){.alert.warn{background:#3a2a0c;color:#f5cf8a}.alert.bad{background:#3d1712;color:#f5a99f}}
+</style>
+</head>
+<body>
+<header><h1>💧 Compta Aquatic Shape Chartrons</h1><small>Micro-entreprise : recettes, cotisations URSSAF, plafonds</small></header>
+<nav>
+  <button data-tab="dash" class="on">Tableau de bord</button>
+  <button data-tab="add">+ Saisir</button>
+  <button data-tab="list">Livre des recettes</button>
+  <button data-tab="set">Réglages</button>
+</nav>
+<main>
+
+<section id="dash">
+  <div class="card">
+    <div class="row">
+      <div><label>Année</label><select id="year"></select></div>
+      <div><label>Période de déclaration</label><select id="period"></select></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Période sélectionnée</h2>
+    <div class="grid">
+      <div class="kpi"><span>CA encaissé</span><b id="pCA">0 €</b></div>
+      <div class="kpi"><span>Cotisations à déclarer</span><b id="pCot">0 €</b></div>
+      <div class="kpi"><span>Dépenses</span><b id="pDep">0 €</b></div>
+      <div class="kpi"><span>Reste net estimé</span><b id="pNet">0 €</b></div>
+    </div>
+    <p class="mut" id="pInfo"></p>
+  </div>
+  <div class="card">
+    <h2>Année <span id="yLbl"></span></h2>
+    <div class="grid">
+      <div class="kpi"><span>CA total</span><b id="yCA">0 €</b></div>
+      <div class="kpi"><span>Cotisations totales</span><b id="yCot">0 €</b></div>
+      <div class="kpi"><span>Reste net estimé</span><b id="yNet">0 €</b></div>
+      <div class="kpi"><span>Nb séances / ventes</span><b id="yNb">0</b></div>
+    </div>
+    <label>Plafond micro-entreprise <span id="plafLbl"></span></label>
+    <div class="bar"><i id="plafBar"></i></div><span class="mut" id="plafTxt"></span>
+    <label>Seuil franchise TVA <span id="tvaLbl"></span></label>
+    <div class="bar"><i id="tvaBar"></i></div><span class="mut" id="tvaTxt"></span>
+    <div id="alerts"></div>
+  </div>
+  <div class="card">
+    <h2>CA par discipline</h2>
+    <table id="byDisc"></table>
+  </div>
+</section>
+
+<section id="add" class="hide">
+  <div class="card">
+    <h2>Nouvelle opération</h2>
+    <div class="row">
+      <div><label>Type</label><select id="fType"><option value="r">Recette</option><option value="d">Dépense</option></select></div>
+      <div><label>Date d'encaissement</label><input type="date" id="fDate"></div>
+    </div>
+    <div class="row">
+      <div><label>Montant (€)</label><input type="number" id="fAmt" step="0.01" min="0" inputmode="decimal"></div>
+      <div id="wDisc"><label>Discipline</label><select id="fDisc"><option>Aquabike</option><option>Aquafitness</option><option>Aquacombat</option><option>Cours particulier</option><option>Autre</option></select></div>
+      <div id="wCat" class="hide"><label>Catégorie</label><select id="fCat"><option>Matériel</option><option>Location bassin</option><option>Musique / abonnements</option><option>Déplacements</option><option>Assurance RC pro</option><option>Formation</option><option>Autre</option></select></div>
+    </div>
+    <div class="row">
+      <div><label>Client / fournisseur</label><input id="fWho" placeholder="ex : Marie D. / Decathlon"></div>
+      <div><label>Mode de paiement</label><select id="fPay"><option>Virement</option><option>CB</option><option>Espèces</option><option>Chèque</option><option>PayPal</option></select></div>
+    </div>
+    <label>Note (n° facture, détail…)</label><input id="fNote">
+    <button class="btn" id="save">Enregistrer</button>
+    <p class="mut" id="saved"></p>
+  </div>
+</section>
+
+<section id="list" class="hide">
+  <div class="card">
+    <h2>Livre des recettes &amp; dépenses</h2>
+    <p class="mut">Le livre des recettes est obligatoire en micro-entreprise : exporte-le régulièrement.</p>
+    <div class="row">
+      <div><label>Filtrer</label><select id="lFilter"><option value="all">Tout</option><option value="r">Recettes</option><option value="d">Dépenses</option></select></div>
+      <div><label>Année</label><select id="lYear"></select></div>
+    </div>
+    <button class="btn sec" id="csv">⬇ Export CSV (Excel)</button>
+    <div style="overflow-x:auto;margin-top:10px"><table id="tbl"></table></div>
+  </div>
+</section>
+
+<section id="set" class="hide">
+  <div class="card">
+    <h2>Taux et seuils</h2>
+    <p class="mut">Valeurs par défaut 2026, activité BNC rattachée à la SSI. Vérifie-les sur autoentrepreneur.urssaf.fr, elles changent souvent.</p>
+    <div class="row">
+      <div><label>Cotisations sociales (%)</label><input type="number" step="0.1" id="sCot"></div>
+      <div><label>Formation pro CFP (%)</label><input type="number" step="0.01" id="sCfp"></div>
+    </div>
+    <div class="row">
+      <div><label>Versement libératoire impôt (%)</label><input type="number" step="0.1" id="sVl"></div>
+      <div><label>Option versement libératoire</label><select id="sVlOn"><option value="0">Non</option><option value="1">Oui</option></select></div>
+    </div>
+    <div class="row">
+      <div><label>ACRE (cotisations −50 %)</label><select id="sAcre"><option value="0">Non</option><option value="1">Oui</option></select></div>
+      <div><label>Fin de l'ACRE</label><input type="date" id="sAcreEnd"></div>
+    </div>
+    <div class="row">
+      <div><label>Déclaration</label><select id="sFreq"><option value="m">Mensuelle</option><option value="t">Trimestrielle</option></select></div>
+      <div><label>Plafond CA (€)</label><input type="number" id="sPlaf"></div>
+    </div>
+    <div class="row">
+      <div><label>Seuil franchise TVA (€)</label><input type="number" id="sTva"></div>
+      <div><label>Seuil TVA majoré (€)</label><input type="number" id="sTvaMaj"></div>
+    </div>
+    <button class="btn" id="saveSet">Enregistrer les réglages</button>
+  </div>
+  <div class="card">
+    <h2>Sauvegarde</h2>
+    <p class="mut">Les données restent sur cet appareil (navigateur). Fais une sauvegarde de temps en temps, et sers-toi-en pour passer sur un autre téléphone.</p>
+    <button class="btn sec" id="exp">⬇ Sauvegarder (JSON)</button>
+    <label class="btn sec" style="display:inline-block;color:var(--acc)">⬆ Restaurer<input type="file" id="imp" accept=".json" class="hide"></label>
+  </div>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const DEF={cot:26.1,cfp:0.2,vl:2.2,vlOn:0,acre:0,acreEnd:"",freq:"m",plaf:83600,tva:37500,tvaMaj:41250};
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){alert("Impossible d'enregistrer sur cet appareil.")}}
+let ops=load("asc_ops",[]), S={...DEF,...load("asc_set",{})};
+const eur=n=>n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
+const MOIS=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+
+// Cotisations d'une recette (ACRE selon la date)
+function rate(date){
+  let c=+S.cot;
+  if(+S.acre && (!S.acreEnd || date<=S.acreEnd)) c=c/2;
+  return (c + +S.cfp + (+S.vlOn ? +S.vl : 0))/100;
+}
+const cotOf=list=>list.filter(o=>o.t==="r").reduce((s,o)=>s+o.a*rate(o.d),0);
+const sum=(list,t)=>list.filter(o=>o.t===t).reduce((s,o)=>s+o.a,0);
+
+// Onglets
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
+  ["dash","add","list","set"].forEach(s=>$(s).classList.toggle("hide",s!==b.dataset.tab));
+  render();
+});
+
+function years(){
+  const y=new Set(ops.map(o=>o.d.slice(0,4))); y.add(String(new Date().getFullYear()));
+  return [...y].sort().reverse();
+}
+function fillYears(sel){const v=sel.value; sel.innerHTML=years().map(y=>`<option>${y}</option>`).join(""); if(v && years().includes(v)) sel.value=v;}
+function fillPeriods(){
+  const v=$("period").value, now=new Date();
+  const opts=S.freq==="m"?MOIS.map((m,i)=>[String(i+1).padStart(2,"0"),m]):[["T1","1er trimestre"],["T2","2e trimestre"],["T3","3e trimestre"],["T4","4e trimestre"]];
+  $("period").innerHTML=opts.map(([k,l])=>`<option value="${k}">${l}</option>`).join("");
+  const def=S.freq==="m"?String(now.getMonth()+1).padStart(2,"0"):"T"+(Math.floor(now.getMonth()/3)+1);
+  $("period").value=opts.some(o=>o[0]===v)?v:def;
+}
+function inPeriod(d,y,p){
+  if(d.slice(0,4)!==y) return false;
+  const m=+d.slice(5,7);
+  return p.startsWith("T") ? Math.ceil(m/3)===+p[1] : m===+p;
+}
+function deadline(y,p){
+  // Échéance URSSAF : fin du mois suivant la période
+  let m = p.startsWith("T") ? +p[1]*3 : +p;
+  let yy=+y; m++; if(m>12){m=1;yy++}
+  return new Date(yy,m,0).toLocaleDateString("fr-FR");
+}
+function pct(bar,txt,val,max){const p=Math.min(100,val/max*100); $(bar).style.width=p+"%"; $(bar).style.background=p>=100?"var(--bad)":p>=80?"var(--warn)":"var(--ok)"; $(txt).textContent=`${eur(val)} / ${eur(max)} (${p.toFixed(0)} %)`;}
+
+function render(){
+  fillYears($("year")); fillYears($("lYear")); fillPeriods();
+  const y=$("year").value, p=$("period").value;
+  const P=ops.filter(o=>inPeriod(o.d,y,p)), Y=ops.filter(o=>o.d.startsWith(y));
+  const pca=sum(P,"r"), pc=cotOf(P), pd=sum(P,"d");
+  $("pCA").textContent=eur(pca); $("pCot").textContent=eur(pc); $("pDep").textContent=eur(pd); $("pNet").textContent=eur(pca-pc-pd);
+  $("pInfo").textContent=`À déclarer sur autoentrepreneur.urssaf.fr avant le ${deadline(y,p)}, même si le CA est à 0 €.`;
+  const yca=sum(Y,"r"), yc=cotOf(Y), yd=sum(Y,"d");
+  $("yLbl").textContent=y; $("yCA").textContent=eur(yca); $("yCot").textContent=eur(yc); $("yNet").textContent=eur(yca-yc-yd); $("yNb").textContent=Y.filter(o=>o.t==="r").length;
+  $("plafLbl").textContent=`(${eur(+S.plaf)})`; $("tvaLbl").textContent=`(${eur(+S.tva)})`;
+  pct("plafBar","plafTxt",yca,+S.plaf); pct("tvaBar","tvaTxt",yca,+S.tva);
+  let al="";
+  if(yca>=+S.tvaMaj) al+=`<div class="alert bad">Seuil TVA majoré dépassé : TVA à facturer dès maintenant. Contacte ton SIE.</div>`;
+  else if(yca>=+S.tva) al+=`<div class="alert warn">Seuil de franchise TVA dépassé : tu devras facturer la TVA à partir du 1er janvier prochain.</div>`;
+  else if(yca>=0.8*+S.tva) al+=`<div class="alert warn">Tu approches du seuil de franchise TVA (80 % atteints).</div>`;
+  if(yca>=+S.plaf) al+=`<div class="alert bad">Plafond micro dépassé cette année : si ça se répète l'an prochain, tu sors du régime micro.</div>`;
+  $("alerts").innerHTML=al;
+  const by={}; Y.filter(o=>o.t==="r").forEach(o=>by[o.c]=(by[o.c]||0)+o.a);
+  $("byDisc").innerHTML=Object.keys(by).length?Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${k}</td><td class="n">${eur(v)}</td><td class="n mut">${(v/yca*100).toFixed(0)} %</td></tr>`).join(""):`<tr><td class="mut">Aucune recette cette année.</td></tr>`;
+  renderList();
+}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function filtered(){const f=$("lFilter").value,y=$("lYear").value; return ops.filter(o=>o.d.startsWith(y)&&(f==="all"||o.t===f)).sort((a,b)=>b.d.localeCompare(a.d));}
+function renderList(){
+  const L=filtered();
+  $("tbl").innerHTML=`<tr><th>Date</th><th>Détail</th><th class="n">Montant</th><th></th></tr>`+(L.length?L.map(o=>`<tr><td>${o.d.split("-").reverse().join("/")}</td><td>${o.t==="d"?'<span class="tag">dépense</span> ':""}${esc(o.c)} · ${esc(o.w)}<br><span class="mut">${esc(o.p)}${o.n?" · "+esc(o.n):""}</span></td><td class="n" style="color:${o.t==="d"?"var(--bad)":"inherit"}">${o.t==="d"?"−":""}${eur(o.a)}</td><td><button class="del" data-id="${o.id}" title="Supprimer">✕</button></td></tr>`).join(""):`<tr><td colspan="4" class="mut">Rien pour l'instant.</td></tr>`);
+  document.querySelectorAll(".del").forEach(b=>b.onclick=()=>{if(confirm("Supprimer cette ligne ?")){ops=ops.filter(o=>o.id!==b.dataset.id);store("asc_ops",ops);render();}});
+}
+
+// Saisie
+$("fDate").value=new Date().toISOString().slice(0,10);
+$("fType").onchange=()=>{const d=$("fType").value==="d"; $("wDisc").classList.toggle("hide",d); $("wCat").classList.toggle("hide",!d);};
+$("save").onclick=()=>{
+  const a=parseFloat($("fAmt").value), d=$("fDate").value;
+  if(!(a>0)||!d){alert("Indique une date et un montant.");return;}
+  const t=$("fType").value;
+  ops.push({id:Date.now()+""+Math.random().toString(36).slice(2,6),t,d,a,c:t==="r"?$("fDisc").value:$("fCat").value,w:$("fWho").value.trim(),p:$("fPay").value,n:$("fNote").value.trim()});
+  store("asc_ops",ops);
+  $("saved").textContent=`✓ ${t==="r"?"Recette":"Dépense"} de ${eur(a)} enregistrée.`;
+  $("fAmt").value="";$("fWho").value="";$("fNote").value="";
+  render();
+};
+$("lFilter").onchange=renderList; $("lYear").onchange=renderList;
+$("year").onchange=render; $("period").onchange=render;
+
+// Export CSV
+$("csv").onclick=()=>{
+  const rows=[["Date","Type","Catégorie/Discipline","Client/Fournisseur","Mode de paiement","Montant","Note"]].concat(filtered().slice().reverse().map(o=>[o.d.split("-").reverse().join("/"),o.t==="r"?"Recette":"Dépense",o.c,o.w,o.p,o.a.toFixed(2).replace(".",","),o.n]));
+  const csv="﻿"+rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\n");
+  dl(new Blob([csv],{type:"text/csv"}),`livre-recettes-${$("lYear").value}.csv`);
+};
+function dl(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);}
+
+// Réglages
+const SF={cot:"sCot",cfp:"sCfp",vl:"sVl",vlOn:"sVlOn",acre:"sAcre",acreEnd:"sAcreEnd",freq:"sFreq",plaf:"sPlaf",tva:"sTva",tvaMaj:"sTvaMaj"};
+for(const k in SF) $(SF[k]).value=S[k];
+$("saveSet").onclick=()=>{for(const k in SF) S[k]=$(SF[k]).value; store("asc_set",S); render(); alert("Réglages enregistrés.");};
+$("exp").onclick=()=>dl(new Blob([JSON.stringify({ops,S},null,1)],{type:"application/json"}),`sauvegarde-compta-${new Date().toISOString().slice(0,10)}.json`);
+$("imp").onchange=e=>{const f=e.target.files[0]; if(!f) return; f.text().then(t=>{try{const j=JSON.parse(t); if(!Array.isArray(j.ops)) throw 0; if(confirm(`Remplacer les données actuelles par ${j.ops.length} opérations ?`)){ops=j.ops;S={...DEF,...j.S};store("asc_ops",ops);store("asc_set",S);for(const k in SF) $(SF[k]).value=S[k];render();}}catch(_){alert("Fichier invalide.");}});};
+
+render();
+</script>
+</body>
+</html>
