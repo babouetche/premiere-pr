@@ -136,7 +136,7 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num = n => Number(n || 0).toLocaleString('fr-FR');
 const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
-const parseD = d => { if (!d) return null; const s = String(d); const x = new Date(/T|Z|\+/.test(s) ? s : s.replace(' ', 'T') + 'Z'); return isNaN(x) ? null : x; };
+const parseD = d => { if (!d) return null; let s = String(d); if (/^\d{4}-\d{2}-\d{2}$/.test(s)) s += 'T12:00:00Z'; const x = new Date(/T|Z|\+/.test(s) ? s : s.replace(' ', 'T') + 'Z'); return isNaN(x) ? null : x; };
 const fDate = d => { const x = parseD(d); return x ? x.toLocaleDateString('fr-FR') : ''; };
 const fDateTime = d => { const x = parseD(d); return x ? x.toLocaleDateString('fr-FR') + ' à ' + x.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : ''; };
 const hue = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
@@ -276,9 +276,11 @@ async function renderProfile(user, mine, target = $('#main'), backFn) {
         <div class="kpi" style="--c:var(--orange)"><span>30 derniers jours</span><b>${num(ptsSince(30))} pts</b></div>
         <div class="kpi" style="--c:var(--violet)"><span>Complétion moyenne</span><b>${avgComp.toFixed(1)} %</b></div>
       </div>
-      ${mine ? `<a class="btn sec" href="${SITE}/settings" target="_blank" rel="noopener">✏️ Modifier mon profil (sur le site)</a>`
-             : `<a class="btn sec" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">Voir sur le site ↗</a>`}
+      ${mine ? `<a class="btn sec" href="${SITE}/settings" target="_blank" rel="noopener">🖼️ Changer ma photo / ma bio</a>
+                <a class="btn sec" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">Mon profil sur le site ↗</a>`
+             : `<a class="btn sec" href="${SITE}/user/${encodeURIComponent(p.User)}" target="_blank" rel="noopener">✍️ Voir / commenter sur le site ↗</a>`}
     </div>
+    ${rankCard(user, s.Rank, p.TotalPoints)}
     <div class="card" style="--c:var(--cyan)">
       <h2>Statistiques du joueur</h2>
       <ul class="stats">
@@ -416,7 +418,7 @@ async function renderGame(gameId, user, backFn) {
       <div class="bar"><i class="hc" style="width:${pct(done, achs.length)}%"></i></div>
     </div>
     <div class="filters" id="gTabs">
-      <button data-t="succes" class="on">🏆 Succès</button><button data-t="infos">🕹️ Infos & émulateur</button><button data-t="coms">💬 Commentaires</button>
+      <button data-t="succes" class="on">🏆 Succès</button><button data-t="infos">🕹️ Infos & émulateur</button><button data-t="lb">🏁 Classements</button><button data-t="coms">💬 Commentaires</button>
     </div>
     <div id="gBody"></div>`;
     $('#gBack').onclick = backFn;
@@ -494,11 +496,33 @@ async function renderGame(gameId, user, backFn) {
 
     const drawComs = () => {
       $('#gBody').innerHTML = `<div class="card" style="--c:var(--pink)"><h2>Commentaires du jeu</h2><div id="coms">⏳ Chargement…</div>
-        <a href="${SITE}/game/${g.ID}" target="_blank" rel="noopener" class="mut">Écrire un commentaire sur le site ↗</a></div>`;
+        <a class="btn" href="${SITE}/game/${g.ID}#comments" target="_blank" rel="noopener">✍️ Commenter sur le site</a></div>`;
       loadComments(g.ID, 1, $('#coms'));
     };
 
-    const draw = () => { $('#gTabs').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === gameTab)); ({ succes: drawAch, infos: drawInfos, coms: drawComs })[gameTab](); };
+    const drawLb = async () => {
+      $('#gBody').innerHTML = `<div class="card" style="--c:var(--orange)"><h2>Classements du jeu</h2><div id="lbs">⏳ Chargement…</div></div>`;
+      try {
+        const [all, minee] = await Promise.all([
+          ra('API_GetGameLeaderboards', { i: g.ID, c: 500 }),
+          ra('API_GetUserGameLeaderboards', { i: g.ID, u: user, c: 500 }).catch(() => ({ Results: [] }))
+        ]);
+        const lbs = all.Results || [];
+        const myMap = Object.fromEntries((minee.Results || []).map(x => [x.ID, x.UserEntry]));
+        const el = $('#lbs');
+        el.innerHTML = lbs.length ? lbs.map(l => {
+          const me = myMap[l.ID];
+          return `<div class="item click" data-lb="${l.ID}">
+            <div class="t"><b>🏁 ${esc(l.Title)}</b><small>${esc(l.Description)}</small>
+            ${l.TopEntry ? `<small>🥇 <b style="display:inline;color:var(--gold)">${esc(l.TopEntry.User)}</b> · ${esc(l.TopEntry.FormattedScore)}</small>` : ''}
+            ${me ? `<small style="color:var(--cyan)">👉 ${user === cfg.user ? 'Toi' : esc(user)} : #${num(me.Rank)} · ${esc(me.FormattedScore)}</small>` : ''}</div>
+            <span class="pts">›</span></div>`;
+        }).join('') : '<p class="mut">Ce jeu n\'a pas de classement.</p>';
+        el.querySelectorAll('[data-lb]').forEach(x => x.onclick = () => openLb(lbs.find(l => l.ID == x.dataset.lb), myMap[x.dataset.lb], user));
+      } catch (e) { $('#lbs').innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
+    };
+
+    const draw = () => { $('#gTabs').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.t === gameTab)); ({ succes: drawAch, infos: drawInfos, lb: drawLb, coms: drawComs })[gameTab](); };
     $('#gTabs').onclick = e => { const b = e.target.closest('button'); if (b) { gameTab = b.dataset.t; draw(); } };
     draw();
   } catch (e) { m.innerHTML = errBox(e); }
@@ -543,8 +567,82 @@ function openAch(a, g, players) {
     </ul>
     <h3 style="margin:16px 0 4px">💬 Commentaires</h3>
     <div id="aComs" class="mut">⏳ Chargement…</div>
-    <a href="${SITE}/achievement/${a.ID}" target="_blank" rel="noopener" class="mut">Voir sur le site ↗</a>`);
+    <a class="btn" href="${SITE}/achievement/${a.ID}#comments" target="_blank" rel="noopener">✍️ Commenter ce succès sur le site</a>`);
   loadComments(a.ID, 2, $('#aComs'));
+}
+
+// --- détail d'un classement de jeu ---
+async function openLb(l, me, user) {
+  sheet.open(`<b style="font-size:1.1rem">🏁 ${esc(l.Title)}</b><p class="mut">${esc(l.Description)}</p>
+    ${me ? `<div class="kpi" style="--c:var(--cyan)"><span>${user === cfg.user ? 'Ta place' : 'Place de ' + esc(user)}</span><b>#${num(me.Rank)}</b><em>${esc(me.FormattedScore)} · ${fDate(me.DateUpdated)}</em></div>` : ''}
+    <div id="lbE" style="margin-top:10px" class="mut">⏳ Chargement…</div>
+    <a class="btn sec" href="${SITE}/leaderboardinfo.php?i=${l.ID}" target="_blank" rel="noopener">Voir sur le site ↗</a>`);
+  try {
+    const r = await ra('API_GetLeaderboardEntries', { i: l.ID, c: 100 });
+    const medal = n => ['🥇', '🥈', '🥉'][n - 1] || '#' + n;
+    $('#lbE').innerHTML = (r.Results || []).map(e => `<div class="item" style="${e.User.toLowerCase() === user.toLowerCase() ? 'background:#33d6ff1a;border-radius:8px' : ''}">
+      <span class="pts" style="min-width:42px;text-align:center">${medal(e.Rank)}</span>
+      <div class="t"><b>${esc(e.User)}</b><small>${fDate(e.DateSubmitted)}</small></div>
+      <span style="font-weight:700">${esc(e.FormattedScore)}</span></div>`).join('') || 'Aucune entrée.';
+    if ((r.Total || 0) > 100) $('#lbE').innerHTML += `<p class="mut">Top 100 sur ${num(r.Total)} joueurs.</p>`;
+  } catch (e) { $('#lbE').innerHTML = `<p class="err">⚠️ ${esc(e.message)}</p>`; }
+}
+
+// --- progression au classement : une photo du rang par jour, gardée sur l'appareil ---
+function trackRank(user, rank, points) {
+  const k = 'ra_rank_' + String(user).toLowerCase();
+  const h = store.get(k, []);
+  if (!rank) return h;
+  const today = new Date().toISOString().slice(0, 10);
+  const last = h[h.length - 1];
+  if (last && last.d === today) { last.r = rank; last.p = points; } else h.push({ d: today, r: rank, p: points });
+  while (h.length > 800) h.shift();
+  store.set(k, h);
+  return h;
+}
+function rankDelta(h, days) {
+  if (h.length < 2) return null;
+  const now = h[h.length - 1], limit = new Date(Date.now() - days * 864e5).toISOString().slice(0, 10);
+  let ref = null;
+  for (const x of h) if (x.d <= limit) ref = x;
+  const partial = !ref;
+  if (!ref) ref = h[0];
+  if (ref === now) return null;
+  return { places: ref.r - now.r, pts: now.p - ref.p, partial, since: ref.d };
+}
+function rankCard(user, rank, points) {
+  const h = trackRank(user, rank, points);
+  if (!rank) return '';
+  const fmt = d => {
+    if (!d) return '<b style="color:var(--mut)">—</b><em>pas encore de recul</em>';
+    const col = d.places > 0 ? 'var(--green)' : d.places < 0 ? 'var(--red)' : 'var(--mut)';
+    const arrow = d.places > 0 ? '▲' : d.places < 0 ? '▼' : '=';
+    return `<b style="color:${col}">${arrow} ${num(Math.abs(d.places))}</b><em>place${Math.abs(d.places) > 1 ? 's' : ''} · +${num(d.pts)} pts${d.partial ? ' · depuis le ' + fDate(d.since) : ''}</em>`;
+  };
+  const first = h[0], last = h[h.length - 1];
+  const span = (new Date(last.d) - new Date(first.d)) / 864e5;
+  const perDay = span >= 1 ? (first.r - last.r) / span : null;
+  let spark = '';
+  if (h.length >= 2) {
+    const pts = h.slice(-90), rs = pts.map(x => x.r), mn = Math.min(...rs), mx = Math.max(...rs), W = 300, H = 60;
+    const xy = pts.map((x, i) => `${(i / (pts.length - 1) * W).toFixed(1)},${(mx === mn ? H / 2 : (x.r - mn) / (mx - mn) * (H - 8) + 4).toFixed(1)}`).join(' ');
+    spark = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:60px;margin-top:10px" preserveAspectRatio="none" aria-label="Évolution du rang">
+      <polyline points="${xy}" fill="none" stroke="url(#rg)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      <defs><linearGradient id="rg"><stop offset="0" stop-color="#9b7bff"/><stop offset="1" stop-color="#3ee08f"/></linearGradient></defs></svg>`;
+  }
+  return `<div class="card" style="--c:var(--green)">
+    <h2>📈 Progression au classement</h2>
+    <div class="grid">
+      <div class="kpi" style="--c:var(--cyan)"><span>Aujourd'hui</span>${fmt(rankDelta(h, 1))}</div>
+      <div class="kpi" style="--c:var(--violet)"><span>7 jours</span>${fmt(rankDelta(h, 7))}</div>
+      <div class="kpi" style="--c:var(--pink)"><span>30 jours</span>${fmt(rankDelta(h, 30))}</div>
+      <div class="kpi" style="--c:var(--orange)"><span>1 an</span>${fmt(rankDelta(h, 365))}</div>
+      <div class="kpi" style="--c:var(--green)"><span>Moyenne</span>${perDay === null ? '<b style="color:var(--mut)">—</b>' : `<b>${perDay >= 0 ? '+' : ''}${perDay.toFixed(1).replace('.', ',')}</b><em>places / jour</em>`}</div>
+      <div class="kpi" style="--c:var(--gold)"><span>Rang actuel</span><b>#${num(rank)}</b></div>
+    </div>
+    ${spark}
+    <p class="mut">Le site ne garde pas l'historique du classement : l'appli note ton rang à chaque ouverture (sur cet appareil, depuis le ${fDate(first.d)}). Plus tu l'ouvres, plus les stats sont précises.</p>
+  </div>`;
 }
 
 // --- recherche d'un jeu par console ---
